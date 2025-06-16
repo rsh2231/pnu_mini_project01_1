@@ -9,11 +9,11 @@ import SocialLogin from "./SocialLogin";
 export default function LoginModal({ onclose }: { onclose: () => void }) {
   const [formType, setFormType] = useState<"login" | "register">("login");
 
-  return (
-    <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50">
-      <div className="bg-white dark:bg-gray-900 rounded-lg w-[360px] max-w-full p-6 shadow-lg flex flex-col">
+   return (
+    <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex justify-center items-center z-50">
+      <div className="bg-white/95 dark:bg-gray-100/90 rounded-xl w-[360px] max-w-full p-6 shadow-xl border border-teal-300 dark:border-teal-400 flex flex-col">
         {/* 탭 버튼 */}
-        <div className="flex gap-3 mb-4">
+        <div className="flex justify-center items-center gap-3 mb-4">
           <Button01
             caption="로그인"
             bg_color={formType === "login" ? "blue" : "lime"}
@@ -27,7 +27,7 @@ export default function LoginModal({ onclose }: { onclose: () => void }) {
         </div>
 
         {/* 구분선 */}
-        <hr className="border-gray-300 dark:border-gray-700 mb-4" />
+        <hr className="border-teal-300 dark:border-teal-400 mb-4" />
 
         {/* 폼 */}
         <div className="mt-6 flex-grow">
@@ -39,7 +39,7 @@ export default function LoginModal({ onclose }: { onclose: () => void }) {
         </div>
 
         {/* 소셜 로그인 */}
-        <p className="text-blue-600 dark:text-blue-400 font-semibold mb-3 text-center">
+        <p className="text-teal-600 dark:text-teal-500 font-semibold mb-3 text-center">
           소셜 로그인
         </p>
         <SocialLogin />
@@ -47,7 +47,7 @@ export default function LoginModal({ onclose }: { onclose: () => void }) {
         {/* 닫기 버튼 */}
         <button
           onClick={onclose}
-          className="mt-6 self-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 transition"
+          className="mt-6 self-center text-teal-700 hover:text-teal-900 dark:text-teal-500 dark:hover:text-teal-700 transition font-semibold cursor-pointer"
           aria-label="닫기"
         >
           닫기

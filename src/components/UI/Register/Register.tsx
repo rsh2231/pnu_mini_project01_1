@@ -35,15 +35,17 @@ export default function Register({ onclose }: { onclose: () => void }) {
     registration,
   }: RegisterInputField) {
     return (
-      <div className="mb-2 w-full max-w-xs">
+      <div className="flex flex-col gap-1 w-full max-w-xs">
         <input
           type={type}
           {...registration}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className="bg-gray-700 focus:outline-none w-full p-2 pl-4 rounded text-white"
+          className="bg-white/80 text-gray-800 w-full px-4 py-2 rounded-md border border-teal-300 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
         />
-        {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm px-1 font-medium">{error}</p>
+        )}
       </div>
     );
   }
@@ -65,7 +67,7 @@ export default function Register({ onclose }: { onclose: () => void }) {
 
   return (
     <form
-      className="m-2 flex flex-col gap-3 w-full max-w-xs mx-auto"
+      className="m-4 flex flex-col gap-4 bg-white/70 rounded-xl p-6 shadow-md border border-teal-200 w-80 mx-auto backdrop-blur-sm"
       onSubmit={handleSubmit(onSubmit)}
     >
       <InputField
@@ -92,9 +94,9 @@ export default function Register({ onclose }: { onclose: () => void }) {
 
       <button
         type="submit"
-        className="bg-blue-600 hover:bg-blue-500 text-white w-full max-w-xs p-2 rounded hover:cursor-pointer"
+        className="bg-white/80 text-teal-700 font-semibold rounded-md py-2 border border-teal-300 hover:bg-white hover:shadow-md transition cursor-pointer"
       >
-        등록
+        회원가입
       </button>
     </form>
   );

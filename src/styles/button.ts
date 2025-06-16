@@ -63,3 +63,49 @@ export const neon_orange_button = clsx(
         'after:to-yellow-300',
         'after:blur-lg',
 );
+
+const glassCommon = clsx(
+  "px-4",
+  "py-2",
+  "font-semibold",
+  "rounded-xl",
+  "backdrop-blur-md",
+  "bg-white/40",
+  "border",
+  "text-sm",
+  "shadow-md",
+  "transition-all",
+  "duration-300",
+  "ease-in-out",
+  "cursor-pointer",
+  "focus:outline-none",
+  "focus:ring-1",
+  "focus:ring-offset-0"
+);
+
+export const glass_button_variants = {
+  blue: clsx(
+    glassCommon,
+    "text-teal-700",
+    "border-teal-300",
+    "hover:bg-white/60",
+    "hover:shadow-teal-300/50",
+    "focus:ring-teal-400"
+  ),
+  orange: clsx(
+    glassCommon,
+    "text-orange-700",
+    "border-orange-300",
+    "hover:bg-white/60",
+    "hover:shadow-orange-300/50",
+    "focus:ring-orange-400"
+  ),
+  lime: clsx(
+    glassCommon,
+    "text-lime-700",
+    "border-lime-300",
+    "hover:bg-white/60",
+    "hover:shadow-lime-300/50",
+    "focus:ring-lime-400"
+  ),
+} as const;

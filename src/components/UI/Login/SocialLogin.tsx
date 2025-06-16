@@ -23,7 +23,7 @@ export default function SocialLogin() {
         <div className="flex flex-row justify-center gap-4 mt-2">
             <button onClick={()=>handleClick('google')}>
                 <Image 
-                    src='/icons/icons8-google64.png'
+                    src='/icons/google.svg'
                     alt="google icon"
                     width={w}
                     height={h}
@@ -32,7 +32,7 @@ export default function SocialLogin() {
             </button>
             <button onClick={()=>handleClick('naver')}>
                 <Image 
-                    src='/icons/icons8-naver.png'
+                    src='/icons/naver.png'
                     alt="google icon"
                     width={w}
                     height={h}
@@ -41,7 +41,7 @@ export default function SocialLogin() {
             </button>
             <button onClick={()=>handleClick('github')}>
                 <Image 
-                    src='/icons/icons8-github64.png'
+                    src='/icons/github.png'
                     alt="google icon"
                     width={w}
                     height={h}

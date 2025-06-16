@@ -103,7 +103,7 @@ const BoardList = () => {
       {/* 헤더 */}
       <div className="flex justify-between items-center">
         <h2 className="text-4xl font-extrabold text-indigo-700 dark:text-indigo-300 tracking-tight">
-          🧾 자유 게시판
+          🧾 나눔게시판
         </h2>
         <Button01 caption="글쓰기" bg_color="blue" onClick={handleWriteClick} />
       </div>
@@ -133,10 +133,10 @@ const BoardList = () => {
           onChange={(e) => setSortOption(e.target.value)}
           className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
         >
-          <option value="latest">latest</option>
-          <option value="oldest">oldest</option>
-          <option value="title">title</option>
-          <option value="nickname">nickname</option>
+          <option value="latest">최신순</option>
+          <option value="oldest">오래된순</option>
+          <option value="title">제목순</option>
+          <option value="nickname">작성자순</option>
         </select>
       </div>
 

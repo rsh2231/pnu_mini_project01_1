@@ -8,7 +8,6 @@ import { useAtom } from "jotai";
 import { Logininfo } from "@/type/logininfo";
 import { isLoginAtom } from "@/atoms/IsLoginAtom";
 import axios from "axios";
-import { useForm, useWatch } from "react-hook-form";
 import { redirect, usePathname, useRouter } from "next/navigation";
 
 export default function Nav() {
@@ -49,7 +48,7 @@ export default function Nav() {
             withCredentials: true,
           });
           console.log(res.data)
-          setloginstate({isLogin:'logged-in'});
+          setloginstate({ isLogin: 'logged-in' });
 
         } catch (error: any) {
           console.error(
@@ -95,59 +94,48 @@ export default function Nav() {
     });
   };
 
-  return (
-    <header className="bg-indigo-900 text-white px-6 py-4 shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center">
-        {/* 빈 왼쪽 영역 */}
-        <div className="flex-1"></div>
+ return (
+    <>
+      <header className="bg-white/70 backdrop-blur-md text-teal-900 shadow-sm border-b border-teal-200 sticky top-0 z-50 overflow-visible">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* 왼쪽 로고 영역 */}
+          <div className="text-xl font-bold tracking-tight text-teal-800">
+            <Link href="/">WasteSort</Link>
+          </div>
 
-        {/* 가운데 메뉴 */}
-        <nav className="flex gap-8 items-center text-lg font-semibold select-none flex-1 justify-center">
-          <Link
-            href="/"
-            className="hover:text-violet-400 transition-colors duration-300"
-          >
-            홈
-          </Link>
+          {/* 가운데 네비게이션 */}
+          <nav className="flex gap-6 items-center text-md font-medium">
+            <NavLink href="/">홈</NavLink>
+            <NavLink href="/large-waste">대형폐기물</NavLink>
+            <NavLink href="/dashboard">나눔게시판</NavLink>
+          </nav>
 
-          {loginstate.isLogin === "logged-in" && (
-            <>
-              <Link
-                href="/large-waste"
-                className="hover:text-violet-400 transition-colors duration-300"
-              >
-                대형폐기물
-              </Link>
-              <Link
-                href="/dashboard"
-                className="hover:text-violet-400 transition-colors duration-300"
-              >
-                자유게시판
-              </Link>
-            </>
-          )}
-        </nav>
-
-        {/* 오른쪽 로그인/로그아웃 버튼 */}
-        <div className="flex gap-3 items-center flex-1 justify-end">
-          {loginstate.isLogin === "logged-in" ? (
-            <Button01
-              caption="로그아웃"
-              bg_color="orange"
-              onClick={handleLogout}
-            />
-          ) : (
-            <>
-              <Button01
-                caption="로그인"
-                bg_color="blue"
-                onClick={() => setOpen(true)}
-              />
-              {open && <LoginModal onclose={() => setOpen(false)} />}
-            </>
-          )}
+          {/* 오른쪽 버튼 */}
+          <div className="flex items-center gap-3">
+            {loginstate.isLogin === "logged-in" ? (
+              <Button01 caption="로그아웃" bg_color="orange" onClick={handleLogout} />
+            ) : (
+              <Button01 caption="로그인" bg_color="blue" onClick={() => setOpen(true)} />
+            )}
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* 모달은 헤더 밖 최상위에 렌더링 */}
+      {open && <LoginModal onclose={() => setOpen(false)} />}
+    </>
+  );
+}
+
+// 공통 네비게이션 링크 스타일 컴포넌트
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="relative text-teal-700 hover:text-teal-500 transition duration-300 group"
+    >
+      {children}
+      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-teal-400 group-hover:w-full transition-all duration-300"></span>
+    </Link>
   );
 }

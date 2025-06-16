@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  neon_green_button,
-  neon_orange_button,
-  neon_pink_button,
-} from "@/styles/button";
+import { glass_button_variants } from "@/styles/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,12 +21,12 @@ export default function ImageSendingForm() {
     {
       htmlFor: "inputFromCam",
       text: "카메라 촬영",
-      classname: neon_green_button,
+      classname: glass_button_variants.lime,
     },
     {
       htmlFor: "inputFromFile",
       text: "파일로 등록",
-      classname: neon_orange_button,
+      classname: glass_button_variants.orange,
     },
   ];
 
@@ -159,16 +155,16 @@ export default function ImageSendingForm() {
             </label>
           ))
         ) : (
-          <label htmlFor="inputFromCam" className={neon_green_button}>
+          <label htmlFor="inputFromCam" className={glass_button_variants.lime}>
             파일 선택
           </label>
         )}
 
-        <button className={neon_pink_button} type="submit">
+        <button className={glass_button_variants.blue} type="submit">
           서버로 전송
         </button>
         <button
-          className={neon_orange_button}
+          className={glass_button_variants.orange}
           type="button"
           onClick={imgcancle}
         >
@@ -177,17 +173,13 @@ export default function ImageSendingForm() {
       </form>
 
       {/* 프리뷰 영역 */}
-      <div className="mt-6 min-h-[300px] flex justify-center items-center">
+      <div className="mt-6 w-[400px] h-[500px] flex justify-center items-center border border-gray-400 rounded-2xl p-5 shadow-sm backdrop-blur-xs overflow-hidden">
         {imagePreview ? (
           <img
             key={imagePreview}
             src={imagePreview}
             alt="preview"
-            className="
-    w-[90vw] max-w-[400px] max-h-[300px]
-    sm:w-[500px] sm:max-h-[400px]          
-    rounded-lg shadow-md object-contain
-  "
+            className="w-full h-full rounded-lg object-contain"
           />
         ) : (
           <span className="text-gray-400 text-sm">

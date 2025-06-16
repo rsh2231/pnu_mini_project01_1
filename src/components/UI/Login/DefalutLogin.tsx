@@ -37,9 +37,9 @@ export default function DefalutLogin({ onclose }: { onclose: () => void }) {
     }
   };
 
- return (
+  return (
     <form
-      className="m-4 flex flex-col gap-4 bg-white rounded-lg p-6 shadow-md w-72 mx-auto"
+      className="m-4 flex flex-col gap-4 bg-white/70 rounded-xl p-6 shadow-md border border-teal-200 w-80 mx-auto backdrop-blur-sm"
       onSubmit={handleSubmit(onSubmit)}
     >
       <input
@@ -47,18 +47,18 @@ export default function DefalutLogin({ onclose }: { onclose: () => void }) {
         {...register("username", { required: true })}
         placeholder="아이디"
         autoComplete="username"
-        className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+        className="bg-white/60 border border-teal-200 text-gray-800 rounded-md px-4 py-2 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
       />
       <input
         type="password"
         {...register("password", { required: true })}
         placeholder="비밀번호"
         autoComplete="current-password"
-        className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+        className="bg-white/60 border border-teal-200 text-gray-800 rounded-md px-4 py-2 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
       />
       <button
         type="submit"
-        className="bg-indigo-600 text-white font-semibold rounded-md py-2 hover:bg-indigo-700 transition"
+        className="bg-white/80 text-teal-700 font-semibold rounded-md py-2 border border-teal-300 hover:bg-white hover:shadow-md transition cursor-pointer"
       >
         로그인
       </button>
