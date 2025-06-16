@@ -1,5 +1,3 @@
-// src/hooks/useFetchUser.ts
-
 import { useEffect, useState } from "react";
 import { User } from "@/type/user";
 
@@ -7,22 +5,35 @@ export function useFetchUser() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+  // 토큰을 상태가 아닌 매 렌더링마다 읽기 (세션 스토리지는 클라이언트 전용)
+  const token = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     const fetchUser = async () => {
+      setLoading(true);
       try {
-        const res = await fetch(`${springurl}/loged-in/user`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SPRING_URL}/loged-in/user`, {
           credentials: "include",
           headers: {
-            Authorization: sessionStorage.getItem("JwtToken") || "",
+            Authorization: token,
           },
         });
+
+        if (!res.ok) {
+          throw new Error("유저 정보 요청 실패");
+        }
+
         const data = await res.json();
         const member = data.content?.member;
         if (!member) throw new Error("유저 정보 없음");
         setUser(member);
-      } catch {
+      } catch (error) {
         setUser(null);
       } finally {
         setLoading(false);
@@ -30,7 +41,7 @@ export function useFetchUser() {
     };
 
     fetchUser();
-  }, []);
+  }, [token]); // 토큰이 바뀔 때마다 실행됨
 
   return { user, loading };
 }

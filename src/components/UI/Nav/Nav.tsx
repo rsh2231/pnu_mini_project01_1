@@ -36,6 +36,7 @@ export default function Nav() {
         return null; // 오류 발생 시 null 반환
       }
     };
+
     //로그인 정보 불러오기
     const getUserInfo = async () => {
       const sessionToken = sessionStorage.getItem("jwtToken")?.trim() || ""; // DB유저 확인 Session 토큰 확인
@@ -81,6 +82,7 @@ export default function Nav() {
     }
     getUserInfo();
   }, [loginstate.isLogin]);
+
   //로그아웃 api요청 로그아웃에서 세션 토큰 삭제 방식으로 바꿈
   const handleLogout = async () => {
     sessionStorage.removeItem("jwtToken");
@@ -95,9 +97,12 @@ export default function Nav() {
 
   return (
     <header className="bg-indigo-900 text-white px-6 py-4 shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center">
-        {/* 왼쪽 메뉴 */}
-        <nav className="flex gap-8 items-center text-lg font-semibold select-none">
+      <div className="max-w-7xl mx-auto flex flex-wrap items-center">
+        {/* 빈 왼쪽 영역 */}
+        <div className="flex-1"></div>
+
+        {/* 가운데 메뉴 */}
+        <nav className="flex gap-8 items-center text-lg font-semibold select-none flex-1 justify-center">
           <Link
             href="/"
             className="hover:text-violet-400 transition-colors duration-300"
@@ -124,7 +129,7 @@ export default function Nav() {
         </nav>
 
         {/* 오른쪽 로그인/로그아웃 버튼 */}
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-center flex-1 justify-end">
           {loginstate.isLogin === "logged-in" ? (
             <Button01
               caption="로그아웃"
