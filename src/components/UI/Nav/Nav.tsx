@@ -104,7 +104,7 @@ export default function Nav() {
           {/* 가운데 네비게이션 */}
           <nav className="flex gap-6 items-center text-md font-medium">
             <NavLink href="/">홈</NavLink>
-            <NavLink href="/large-waste">대형폐기물</NavLink>
+            <NavLink href="/waste-fees">대형폐기물</NavLink>
             <NavLink href="/dashboard">나눔게시판</NavLink>
           </nav>
 

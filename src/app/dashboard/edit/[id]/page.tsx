@@ -52,7 +52,7 @@ const EditPostPage = () => {
       message: "게시글 수정 요청",
       content: {
         dashboard: {
-          dash_id: Number(id),
+          dashId: Number(id),
           title: post.title,
           content: post.content,
           username: user.username,

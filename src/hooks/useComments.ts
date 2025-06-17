@@ -10,7 +10,7 @@ export function useComments(dashId: string | number, springurl: string, refresh:
         const res = await fetch(`${springurl}/api/comment/read`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: { comment: { dash_id: Number(dashId) } } }),
+          body: JSON.stringify({ content: { comment: { dashId: Number(dashId) } } }),
         });
         const data = await res.json();
         setComments(data.content.comments || []);

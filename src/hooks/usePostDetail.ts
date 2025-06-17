@@ -14,7 +14,7 @@ export function usePostDetail(id: string, springurl: string) {
         const data = await res.json();
         const ds = data.content.dashboard;
         setBoard({
-          id: ds.dash_id,
+          id: ds.dashId,
           title: ds.title,
           content: ds.content,
           writer: ds.nickname,

@@ -25,7 +25,7 @@ export function useCommentSubmit() {
       message: "댓글 등록 요청",
       content: {
         comment: {
-          dash_id: dashId,
+          dashId: dashId,
           parent_id: parentId,
           content: content.trim(),
           username: user.username,

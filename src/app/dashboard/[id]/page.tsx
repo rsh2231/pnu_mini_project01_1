@@ -61,7 +61,7 @@ export default function PostDetail() {
         body: JSON.stringify({
           content: {
             comment: {
-              dash_id: Number(id),
+              dashId: Number(id),
             },
           },
         }),
