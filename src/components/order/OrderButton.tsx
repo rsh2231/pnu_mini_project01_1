@@ -23,7 +23,7 @@ export default function OrderPage()  {
 
   useEffect(() => {
     async function loadItem() {
-      const response = await fetch("http://25.1.109.139:8080/api/item");
+      const response = await fetch("http://10.125.121.186:8080/api/item");
       const data: Item = await response.json();
     //   const data = {
     //             "Item": { 
@@ -47,12 +47,14 @@ export default function OrderPage()  {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPaymentStatus({ status: "PENDING" });
+
+
     
     try {
       const paymentId = randomId();
       const payment = await PortOne.requestPayment({
-        storeId: "store-5f545aa8-a653-40a2-81f5-10a666a8dd1a", // 실제 값 입력 필요
-        channelKey: "channel-key-19f45fcc-482d-4f03-a426-c0736a9e3553", // 실제 값 입력 필요
+        storeId: process.env.STORE_ID, // 실제 값 입력 필요
+        channelKey: process.env.CHANNEL_KEY, // 실제 값 입력 필요
         paymentId,
         orderName: item!.name,
         totalAmount: item!.price,

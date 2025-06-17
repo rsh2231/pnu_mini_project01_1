@@ -105,11 +105,18 @@ export default function Nav() {
           <nav className="flex gap-6 items-center text-md font-medium">
             <NavLink href="/">홈</NavLink>
             <NavLink href="/waste-fees">대형폐기물</NavLink>
+            {/* {loginstate.isLogin === "logged-in" && ( */}
             <NavLink href="/dashboard">나눔게시판</NavLink>
+            {/* )} */}
           </nav>
 
           {/* 오른쪽 버튼 */}
           <div className="flex items-center gap-3">
+            {/* {loginstate.isLogin === "logged-in" && ( */}
+              <Link href="/mypage">
+                <Button01 caption="마이페이지" bg_color="cyan" />
+              </Link>
+            {/* )} */}
             {loginstate.isLogin === "logged-in" ? (
               <Button01
                 caption="로그아웃"

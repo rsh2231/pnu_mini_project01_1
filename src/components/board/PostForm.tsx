@@ -13,7 +13,11 @@ const PostForm: React.FC = () => {
 
   const { user, loading } = useFetchUser();
   const { submitPost } = usePostSubmit();
-  const { uploadAndInsertImage } = useImageUpload(content, setContent, contentRef);
+  const { uploadAndInsertImage } = useImageUpload(
+    content,
+    setContent,
+    contentRef
+  );
 
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
     const items = e.clipboardData.items;
@@ -66,13 +70,13 @@ const PostForm: React.FC = () => {
   };
 
   return (
-    <form className="w-[800px] mx-auto mt-16 p-10 bg-white dark:bg-gray-900 rounded-2xl shadow-lg space-y-8">
-      <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
+    <form className="w-[800px] mx-auto mt-16 p-10 bg-slate-900 rounded-2xl shadow-lg space-y-8 text-slate-200">
+      <h1 className="text-3xl font-bold text-center text-white mb-6">
         게시글 작성
       </h1>
 
       <div>
-        <label className="block text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+        <label className="block text-lg font-semibold text-slate-300 mb-2">
           제목
         </label>
         <input
@@ -81,14 +85,14 @@ const PostForm: React.FC = () => {
           onChange={(e) => setTitle(e.target.value)}
           required
           placeholder="제목을 입력하세요"
-          className="w-full px-4 py-3 border rounded-lg text-base dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-3 border rounded-lg text-base bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="block text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+        <label className="block text-lg font-semibold text-slate-300 mb-2">
           본문
-          <span className="text-sm text-gray-500 ml-2">
+          <span className="text-sm text-slate-400 ml-2">
             (이미지: Ctrl+V 또는 드래그&드롭)
           </span>
         </label>
@@ -99,7 +103,7 @@ const PostForm: React.FC = () => {
           onPaste={handlePaste}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="w-full min-h-[300px] px-4 py-3 border rounded-lg resize-y text-base leading-relaxed dark:bg-gray-800 dark:text-white border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 overflow-auto"
+          className="w-full min-h-[300px] px-4 py-3 border rounded-lg resize-y text-base leading-relaxed bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none overflow-auto"
           suppressContentEditableWarning
           spellCheck={false}
           role="textbox"

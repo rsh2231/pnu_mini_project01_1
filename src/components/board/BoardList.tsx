@@ -42,7 +42,7 @@ const BoardList = () => {
   const [totalPosts, setTotalPosts] = useState(0);
 
   const router = useRouter();
-  const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   // 게시글 불러오기
@@ -98,28 +98,33 @@ const BoardList = () => {
   const handleWriteClick = () => router.push("/dashboard/write");
   const handlePostClick = (id: number) => router.push(`/dashboard/${id}`);
   const uniqueWriters = Array.from(new Set(posts.map((p) => p.writer)));
-  return (
-    <div className="max-w-5xl mx-auto py-12 px-4 space-y-10">
+
+ return (
+    <div className="max-w-5xl mx-auto py-12 px-4 space-y-10 text-slate-200">
       {/* 헤더 */}
       <div className="flex justify-between items-center">
-        <h2 className="text-4xl font-extrabold text-indigo-700 dark:text-indigo-300 tracking-tight">
-          🧾 나눔게시판
+        <h2 className="text-4xl font-extrabold text-white tracking-tight">
+          나눔게시판
         </h2>
-        <Button01 caption="글쓰기" bg_color="blue" onClick={handleWriteClick} />
+        <Button01
+          caption="글쓰기"
+          bg_color="blue"
+          onClick={handleWriteClick}
+        />
       </div>
 
       {/* 검색 / 필터 */}
-      <div className="flex flex-wrap gap-3 items-center bg-gray-50 dark:bg-gray-800 p-4 rounded-xl shadow-inner">
+      <div className="flex flex-wrap gap-3 items-center bg-slate-900 p-4 rounded-xl shadow-inner border border-slate-700">
         <input
           type="text"
           placeholder="제목 또는 내용 검색"
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-grow px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-400 dark:bg-gray-700 dark:text-white shadow-sm"
+          className="flex-grow px-4 py-3 border border-slate-700 rounded-lg focus:ring-2 focus:ring-sky-500 bg-slate-800 text-slate-200 placeholder-slate-400 shadow-sm"
         />
         <select
           value={selectedWriter}
           onChange={(e) => setSelectedWriter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+          className="px-4 py-2 border border-slate-700 rounded-lg bg-slate-800 text-slate-200"
         >
           <option value={""}>전체 작성자</option>
           {uniqueWriters.map((writer) => (
@@ -131,7 +136,7 @@ const BoardList = () => {
         <select
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
-          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+          className="px-4 py-2 border border-slate-700 rounded-lg bg-slate-800 text-slate-200"
         >
           <option value="latest">최신순</option>
           <option value="oldest">오래된순</option>
@@ -144,27 +149,24 @@ const BoardList = () => {
       {error ? (
         <p className="text-center py-10 text-red-500">{error}</p>
       ) : posts.length === 0 ? (
-
-        <p className="text-center py-10 text-gray-500">
-          ❌ 검색 결과가 없습니다.
-        </p>
+        <p className="text-center py-10 text-slate-400">❌ 검색 결과가 없습니다.</p>
       ) : (
         <div className="grid sm:grid-cols-2 gap-6">
           {posts.map((post) => (
             <div
               key={post.id}
               onClick={() => handlePostClick(post.id)}
-              className="cursor-pointer bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6 rounded-xl shadow-lg hover:scale-[1.02] hover:shadow-2xl transition transform duration-300"
+              className="cursor-pointer bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-md hover:scale-[1.02] hover:shadow-lg transition transform duration-300"
             >
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white hover:underline underline-offset-4">
+              <h3 className="text-xl font-bold text-white hover:underline underline-offset-4">
                 {post.title}
               </h3>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-slate-400 mt-1">
                 ✍️ {post.writer} | 🗓{" "}
                 {new Date(post.createDate).toLocaleString()}
               </p>
               <div
-                className="mt-3 text-gray-700 dark:text-gray-300 line-clamp-3 text-sm"
+                className="mt-3 text-slate-300 line-clamp-3 text-sm"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             </div>
@@ -181,8 +183,8 @@ const BoardList = () => {
               onClick={() => setCurrentPage(i + 1)}
               className={`px-4 py-2 rounded-full font-semibold border transition duration-200 ${
                 currentPage === i + 1
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white border-gray-300"
+                  ? "bg-sky-600 text-white border-sky-600 shadow"
+                  : "bg-slate-700 text-slate-300 border-slate-600"
               }`}
             >
               {i + 1}

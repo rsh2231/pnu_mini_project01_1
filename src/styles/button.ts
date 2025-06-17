@@ -70,7 +70,7 @@ const glassCommon = clsx(
   "font-semibold",
   "rounded-xl",
   "backdrop-blur-md",
-  "bg-white",      
+  "bg-white",                
   "border",
   "text-sm",
   "shadow-md",
@@ -86,26 +86,26 @@ const glassCommon = clsx(
 export const glass_button_variants = {
   cyan: clsx(
     glassCommon,
-    "text-cyan-400",
-    "border-cyan-400",
-    "hover:bg-cyan-200/50",        
-    "hover:shadow-cyan-400/40",    
-    "focus:ring-cyan-400"
+    "text-cyan-500",
+    "border-cyan-300",
+    "hover:bg-cyan-100/40",             
+    "hover:shadow-[0_0_6px_rgba(34,211,238,0.3)]", 
+    "focus:ring-cyan-300"
   ),
   teal: clsx(
     glassCommon,
-    "text-teal-400",
-    "border-teal-400",
-    "hover:bg-teal-300/50",
-    "hover:shadow-teal-400/40",
-    "focus:ring-teal-400"
+    "text-teal-500",
+    "border-teal-300",
+    "hover:bg-teal-100/40",             
+    "hover:shadow-[0_0_6px_rgba(20,184,166,0.3)]",
+    "focus:ring-teal-300"
   ),
   blue: clsx(
     glassCommon,
-    "text-blue-400",
-    "border-blue-400",
-    "hover:bg-blue-300/50",
-    "hover:shadow-blue-400/40",
-    "focus:ring-blue-400"
+    "text-blue-500",
+    "border-blue-300",
+    "hover:bg-blue-100/40",             
+    "hover:shadow-[0_0_6px_rgba(59,130,246,0.3)]",
+    "focus:ring-blue-300"
   ),
 } as const;

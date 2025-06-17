@@ -8,13 +8,13 @@ import Button01 from "@/components/etc/Button01";
 import CommentTree from "@/components/comments/CommentTree";
 import CommentForm from "@/components/comments/CommentForm";
 import { CommentDto } from "@/type/commentDto";
-import { dashBoard } from "@/type/dashborad"; 
+import { dashBoard } from "@/type/dashborad";
 
 export default function PostDetail() {
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
-  const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
   const [board, setBoard] = useState<dashBoard | null>(null);
   const [comments, setComments] = useState<CommentDto[]>([]);
@@ -122,11 +122,11 @@ export default function PostDetail() {
     );
   }
 
-  return (
-    <div className="p-4 sm:p-6 md:p-8 min-h-screen bg-white dark:bg-gray-900 rounded-lg shadow-md">
+   return (
+    <div className="max-w-5xl mx-auto p-4 sm:p-6 md:p-8 min-h-screen bg-slate-900 rounded-lg shadow-md text-slate-200 space-y-10">
       {/* 상단 제목 및 버튼 */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b pb-4 mb-6 gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-700 pb-4 mb-6 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">
           게시글 상세
         </h1>
         <div className="flex flex-wrap gap-2">
@@ -149,36 +149,36 @@ export default function PostDetail() {
       </div>
 
       {/* 게시글 제목 */}
-      <h2 className="text-xl sm:text-2xl font-semibold text-blue-700 dark:text-blue-400 mb-3">
+      <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
         {board.title}
       </h2>
 
       {/* 작성자 & 날짜 */}
-      <div className="text-sm text-gray-600 dark:text-gray-400 mb-6 flex flex-col sm:flex-row sm:space-x-4">
+      <div className="text-sm text-slate-400 mb-6 flex flex-col sm:flex-row sm:space-x-4">
         <span>작성자: {board.writer}</span>
         <span>작성일: {new Date(board.createDate).toLocaleString()}</span>
       </div>
 
       {/* 본문 내용 */}
       <div
-        className="bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 rounded-md text-gray-900 dark:text-gray-100 leading-7 whitespace-pre-wrap"
+        className="bg-slate-800 p-4 sm:p-6 rounded-md text-slate-200 leading-7 whitespace-pre-wrap shadow-inner"
         dangerouslySetInnerHTML={{ __html: cleanContent }}
       />
 
       {/* 댓글 영역 */}
       <div className="mt-10">
-        <h3 className="text-lg sm:text-xl font-bold mb-4 text-gray-800 dark:text-white">
+        <h3 className="text-lg sm:text-xl font-bold mb-4 text-white">
           댓글
         </h3>
 
-        <div className="bg-gray-100 dark:bg-gray-800 p-3 sm:p-4 rounded-md shadow-inner">
+        <div className="bg-slate-800 p-3 sm:p-4 rounded-md shadow-inner border border-slate-700">
           <CommentForm
             dashId={board.id}
             parentId={null}
             onCommentPosted={() => setRefresh(Date.now())}
           />
 
-          <div className="mt-6 border-t pt-4 border-gray-300 dark:border-gray-600">
+          <div className="mt-6 border-t pt-4 border-slate-700">
             <CommentTree
               comments={comments}
               onRefresh={() => setRefresh(Date.now())}

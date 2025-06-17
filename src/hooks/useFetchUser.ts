@@ -18,7 +18,7 @@ export function useFetchUser() {
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SPRING_URL}/loged-in/user`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SPRING_API}/loged-in/user`, {
           credentials: "include",
           headers: {
             Authorization: token,

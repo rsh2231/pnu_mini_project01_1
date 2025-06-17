@@ -9,7 +9,7 @@ interface PostPayload {
 
 export function usePostSubmit() {
   const router = useRouter();
-  const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
   const submitPost = async ({ title, content, user }: PostPayload) => {
     const payload = {

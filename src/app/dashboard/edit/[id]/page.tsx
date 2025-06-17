@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useFetchUser } from "@/hooks/useFetchUser";
+import Button01 from "@/components/etc/Button01";
 
-
-const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+const springurl = process.env.SPRING_API;
 
 const EditPostPage = () => {
   const { id } = useParams();
@@ -39,7 +39,7 @@ const EditPostPage = () => {
     if (loadingUser) return alert("사용자 정보를 불러오는 중입니다.");
     if (!user) {
       alert("로그인이 필요합니다.");
-      router.push("/src/components/UI/Login/LoginModal.tsx")
+      router.push("/src/components/UI/Login/LoginModal.tsx");
       return;
     }
 
@@ -82,28 +82,30 @@ const EditPostPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-10 space-y-4">
-      <h2 className="text-2xl font-bold">게시글 수정</h2>
+    <div className="max-w-3xl mx-auto py-10 space-y-6 bg-slate-900 rounded-xl shadow-md px-6 text-slate-200">
+      <h2 className="text-3xl font-extrabold text-white mb-4">게시글 수정</h2>
+
       <input
         type="text"
         value={post.title}
         onChange={(e) => setPost({ ...post, title: e.target.value })}
         placeholder="제목"
-        className="w-full p-2 border rounded"
+        className="w-full p-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm"
       />
+
       <textarea
         value={post.content}
         onChange={(e) => setPost({ ...post, content: e.target.value })}
         placeholder="내용"
         rows={10}
-        className="w-full p-2 border rounded"
+        className="w-full p-3 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm resize-y"
       />
-      <button
+
+      <Button01
+        caption="수정 완료"
+        bg_color="blue"
         onClick={handleUpdate}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        수정 완료
-      </button>
+      />
     </div>
   );
 };

@@ -15,8 +15,7 @@ export default function CommentTree({ comments, onRefresh }: Props) {
       {tree.map((comment) => (
         <div
           key={comment.comment_id}
-          className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md border 
-                     border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100"
+          className="p-4 bg-slate-800 rounded-md border border-slate-700 text-slate-200"
         >
           <CommentItem comment={comment} onRefresh={onRefresh} />
         </div>

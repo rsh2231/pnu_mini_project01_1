@@ -8,7 +8,7 @@ interface SubmitCommentParams {
 }
 
 export function useCommentSubmit() {
-  const springurl = process.env.NEXT_PUBLIC_SPRING_URL;
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
   const submitComment = async ({
     dashId,

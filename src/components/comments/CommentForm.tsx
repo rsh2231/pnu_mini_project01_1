@@ -56,13 +56,13 @@ const CommentForm: React.FC<CommentFormProps> = ({
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="댓글을 입력하세요"
-        className="w-full p-3 border rounded resize-y dark:bg-gray-800 dark:text-white"
+        className="w-full p-3 border border-slate-700 rounded-lg resize-y bg-slate-800 text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm"
         rows={4}
         disabled={loading || !user}
       />
       <button
         type="submit"
-        className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-400"
+        className="mt-2 px-5 py-2 bg-sky-600 text-white rounded-lg shadow-md hover:bg-sky-700 disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors"
         disabled={loading || !user}
       >
         댓글 등록
