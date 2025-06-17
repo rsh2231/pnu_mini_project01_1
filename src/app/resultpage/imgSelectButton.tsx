@@ -1,7 +1,5 @@
 'use client'
 import Button01 from "@/components/etc/Button01";
-
-
 import Payment from "@/components/UI/Payment/Payment";
 import axios from "axios";
 import React, { useState } from "react";
