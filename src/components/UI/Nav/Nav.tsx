@@ -22,7 +22,6 @@ export default function Nav() {
   useEffect(() => {
     //Oauth유저 로그인시 쿠키확인용
     const checkOauthUser = async () => {
-
       const sessionToken = sessionStorage.getItem("jwtToken")?.trim() || "";
 
       try {
@@ -47,9 +46,8 @@ export default function Nav() {
             headers: { Authorization: sessionToken },
             withCredentials: true,
           });
-          console.log(res.data)
-          setloginstate({ isLogin: 'logged-in' });
-
+          console.log(res.data);
+          setloginstate({ isLogin: "logged-in" });
         } catch (error: any) {
           console.error(
             "유저 불러오기 실패 Nav : ",
@@ -62,10 +60,10 @@ export default function Nav() {
             sessionStorage.removeItem("jwtToken");
             setloginstate({
               isLogin: "logged-out",
-              nickname: '',
-              logintype: '',
+              nickname: "",
+              logintype: "",
               role: undefined,
-              username: '',
+              username: "",
             });
           }
         }
@@ -86,7 +84,7 @@ export default function Nav() {
   const handleLogout = async () => {
     sessionStorage.removeItem("jwtToken");
     setloginstate({
-      isLogin: 'logged-out',
+      isLogin: "logged-out",
       nickname: "",
       logintype: "",
       role: undefined,
@@ -94,12 +92,12 @@ export default function Nav() {
     });
   };
 
- return (
+  return (
     <>
-      <header className="bg-white/70 backdrop-blur-md text-teal-900 shadow-sm border-b border-teal-200 sticky top-0 z-50 overflow-visible">
+      <header className="bg-[#0f172a]/90 backdrop-blur-md text-white shadow-sm border-b border-blue-800 sticky top-0 z-50 overflow-visible">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* 왼쪽 로고 영역 */}
-          <div className="text-xl font-bold tracking-tight text-teal-800">
+          <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition">
             <Link href="/">WasteSort</Link>
           </div>
 
@@ -113,9 +111,17 @@ export default function Nav() {
           {/* 오른쪽 버튼 */}
           <div className="flex items-center gap-3">
             {loginstate.isLogin === "logged-in" ? (
-              <Button01 caption="로그아웃" bg_color="orange" onClick={handleLogout} />
+              <Button01
+                caption="로그아웃"
+                bg_color="teal"
+                onClick={handleLogout}
+              />
             ) : (
-              <Button01 caption="로그인" bg_color="blue" onClick={() => setOpen(true)} />
+              <Button01
+                caption="로그인"
+                bg_color="blue"
+                onClick={() => setOpen(true)}
+              />
             )}
           </div>
         </div>
@@ -128,14 +134,20 @@ export default function Nav() {
 }
 
 // 공통 네비게이션 링크 스타일 컴포넌트
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <Link
       href={href}
-      className="relative text-teal-700 hover:text-teal-500 transition duration-300 group"
+      className="relative text-white hover:text-cyan-300 transition duration-300 group"
     >
       {children}
-      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-teal-400 group-hover:w-full transition-all duration-300"></span>
+      <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
     </Link>
   );
 }

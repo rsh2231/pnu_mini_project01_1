@@ -30,7 +30,12 @@ export function useFetchUser() {
         }
 
         const data = await res.json();
-        const member = data.content?.member;
+        
+        const member:User =  {
+          "username":data.username,
+          "nickname":data.nickname
+        }
+        console.log(member)
         if (!member) throw new Error("유저 정보 없음");
         setUser(member);
       } catch (error) {

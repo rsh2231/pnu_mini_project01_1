@@ -14,14 +14,11 @@ import { RegisterType } from "@/type/registerinfo";
 export default function Register({ onclose }: { onclose: () => void }) {
   const methods = useForm<RegisterType>();
   const {
-    register,
     handleSubmit,
     setValue,
-    formState: { errors },
   } = methods;
 
   useEffect(() => {
-    // 카카오 주소 API 스크립트 동적 로딩
     const script = document.createElement("script");
     script.src =
       "https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
@@ -41,26 +38,27 @@ export default function Register({ onclose }: { onclose: () => void }) {
     },
   };
 
-  type RegisterInputField = {
+  type InputFieldProps = {
+    name: keyof RegisterType;
     type: string;
     placeholder: string;
     autoComplete?: string;
-    error?: string;
-    registration: ReturnType<typeof register>;
+    rules?: any;
   };
 
-  function InputField({
-    type,
-    placeholder,
-    autoComplete,
-    error,
-    registration,
-  }: RegisterInputField) {
+  function InputField({ name, type, placeholder, autoComplete, rules }: InputFieldProps) {
+    const {
+      register,
+      formState: { errors },
+    } = useFormContext<RegisterType>();
+
+    const error = errors[name]?.message?.toString();
+
     return (
       <div className="flex flex-col gap-1 w-full max-w-xs">
         <input
           type={type}
-          {...registration}
+          {...register(name, rules)}
           placeholder={placeholder}
           autoComplete={autoComplete}
           className="bg-white/80 text-gray-800 w-full px-4 py-2 rounded-md border border-teal-300 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
@@ -73,14 +71,12 @@ export default function Register({ onclose }: { onclose: () => void }) {
   }
 
   function AddressField() {
-    const { setValue, register } = useFormContext();
+    const { setValue } = useFormContext();
     const [address, setAddress] = useState("");
 
     const handleAddressSearch = () => {
       if (typeof window.daum === "undefined") {
-        alert(
-          "주소 검색 스크립트를 불러오는 중입니다. 잠시 후 다시 시도해주세요."
-        );
+        alert("주소 검색 스크립트를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
         return;
       }
 
@@ -122,23 +118,20 @@ export default function Register({ onclose }: { onclose: () => void }) {
           주소 검색
         </button>
 
-        {/* 상세 주소 입력란 */}
-        <input
+        {/* 상세 주소 입력란 - InputField 재사용 */}
+        <InputField
+          name="detailAddress"
           type="text"
-          {...register("detailAddress")}
           placeholder="상세 주소를 입력하세요"
-          className="bg-white/80 text-gray-800 w-full px-4 py-2 rounded-md border border-teal-300 placeholder:text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-400 transition"
+          rules={{ required: "필수입력입니다." }}
         />
       </div>
     );
   }
 
   const onSubmit = async (data: RegisterType) => {
-    // address와 detailAddress 합치기 (detailAddress가 있을 때만)
     const fullAddress =
       data.address + (data.detailAddress ? ` ${data.detailAddress}` : "");
-
-    // enabled는 기본 true로 설정 (RegisterType에 정의되어 있음)
     const payload = { ...data, address: fullAddress, enabled: true };
 
     try {
@@ -164,25 +157,25 @@ export default function Register({ onclose }: { onclose: () => void }) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <InputField
+          name="username"
           type="text"
           placeholder="아이디"
           autoComplete="username"
-          registration={register("username", inputRule)}
-          error={errors.username?.message?.toString()}
+          rules={inputRule}
         />
         <InputField
+          name="password"
           type="password"
           placeholder="비밀번호"
           autoComplete="current-password"
-          registration={register("password", inputRule)}
-          error={errors.password?.message?.toString()}
+          rules={inputRule}
         />
         <InputField
+          name="nickname"
           type="text"
           placeholder="닉네임"
           autoComplete="nickname"
-          registration={register("nickname", inputRule)}
-          error={errors.nickname?.message?.toString()}
+          rules={inputRule}
         />
 
         <AddressField />

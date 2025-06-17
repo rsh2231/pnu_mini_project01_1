@@ -125,6 +125,7 @@ export default function OrderPage()  {
             type="submit"
             aria-busy={isWaitingPayment}
             disabled={isWaitingPayment}
+            className="cursor-pointer"
           >
             결제
           </button>

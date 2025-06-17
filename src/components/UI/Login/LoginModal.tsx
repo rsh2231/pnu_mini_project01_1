@@ -16,12 +16,12 @@ export default function LoginModal({ onclose }: { onclose: () => void }) {
         <div className="flex justify-center items-center gap-3 mb-4">
           <Button01
             caption="로그인"
-            bg_color={formType === "login" ? "blue" : "lime"}
+            bg_color={formType === "login" ? "blue" : "teal"}
             onClick={() => setFormType("login")}
           />
           <Button01
             caption="회원가입"
-            bg_color={formType === "register" ? "blue" : "lime"}
+            bg_color={formType === "register" ? "blue" : "teal"}
             onClick={() => setFormType("register")}
           />
         </div>

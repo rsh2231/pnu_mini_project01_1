@@ -1,6 +1,5 @@
 "use client";
 
-import OrderPage from "@/components/order/OrderButton";
 import { glass_button_variants } from "@/styles/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -22,12 +21,12 @@ export default function ImageSendingForm() {
     {
       htmlFor: "inputFromCam",
       text: "카메라 촬영",
-      classname: glass_button_variants.lime,
+      classname: glass_button_variants.blue,
     },
     {
       htmlFor: "inputFromFile",
       text: "파일로 등록",
-      classname: glass_button_variants.orange,
+      classname: glass_button_variants.cyan,
     },
   ];
 
@@ -156,24 +155,22 @@ export default function ImageSendingForm() {
             </label>
           ))
         ) : (
-          <label htmlFor="inputFromCam" className={glass_button_variants.lime}>
+          <label htmlFor="inputFromCam" className={glass_button_variants.blue}>
             파일 선택
           </label>
         )}
 
-        <button className={glass_button_variants.blue} type="submit">
+        <button className={glass_button_variants.cyan} type="submit">
           서버로 전송
         </button>
         <button
-          className={glass_button_variants.orange}
+          className={glass_button_variants.teal}
           type="button"
           onClick={imgcancle}
         >
           취소
         </button>
-      </form>
-        <OrderPage/>
-        
+      </form>        
       {/* 프리뷰 영역 */}
       <div className="mt-6 w-[400px] h-[500px] flex justify-center items-center border border-gray-400 rounded-2xl p-5 shadow-sm backdrop-blur-xs overflow-hidden">
         {imagePreview ? (

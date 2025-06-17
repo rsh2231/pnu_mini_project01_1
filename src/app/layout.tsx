@@ -5,8 +5,15 @@ import "./globals.css";
 import Nav from "@/components/UI/Nav/Nav";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "KDT 미니 프로젝트",
@@ -19,18 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
       >
-        <div className="relative min-h-screen flex flex-col justify-between bg-gradient-to-br from-[#ffffff] via-white to-[#d1f2eb] text-gray-900 font-sans">
+        <div className="relative min-h-screen flex flex-col justify-between text-white font-sans">
           <div className="absolute inset-0 opacity-10 pointer-events-none z-0" />
-          <div
-            className="absolute inset-0 bg-no-repeat opacity-20 pointer-events-none z-0"
-            style={{ backgroundImage: "url('/images/truck.png')", backgroundPosition: "right 700px bottom -100px" }}
-          />
           <Nav />
-          <main className="relative z-10 w-full max-w-screen-lg mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12 flex-grow">
+          <main className="relative z-10 w-full flex-grow px-0 py-0 bg-gradient-to-b from-[#0f172a] via-[#1e293b] to-[#1e3a8a]">
             {children}
           </main>
-          <footer className="relative z-10 text-sm text-gray-500 text-center border-t border-teal-200 py-6">
-            © 2025 WasteSort. All rights reserved.
+          <footer className="relative z-10 text-sm text-gray-400 text-center border-t border-blue-900 py-6 bg-[#0f172a]/90">
+            © 2025 WasteSort. All rights reserved.<br/>
+            부산광역시 금정구 부산대학로63번길 2 (장전동)
           </footer>
         </div>
       </body>

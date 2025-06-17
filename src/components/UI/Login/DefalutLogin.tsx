@@ -16,9 +16,7 @@ export default function DefalutLogin({ onclose }: { onclose: () => void }) {
   const onSubmit = async (data: any) => {
     toast.success("로그인성공", { autoClose: 1000 });
     try {
-      const response = await axios.post("api/login", data, {
-        withCredentials: true,
-      });
+      const response = await axios.post("/api/login", data);
       console.log("client 응답 = >", response.data);
 
       if (response.status === 200) {
