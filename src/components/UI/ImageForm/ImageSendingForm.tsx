@@ -1,5 +1,6 @@
 "use client";
 
+import OrderPage from "@/components/order/OrderButton";
 import { glass_button_variants } from "@/styles/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -171,7 +172,8 @@ export default function ImageSendingForm() {
           취소
         </button>
       </form>
-
+        <OrderPage/>
+        
       {/* 프리뷰 영역 */}
       <div className="mt-6 w-[400px] h-[500px] flex justify-center items-center border border-gray-400 rounded-2xl p-5 shadow-sm backdrop-blur-xs overflow-hidden">
         {imagePreview ? (

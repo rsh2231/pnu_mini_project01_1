@@ -11,4 +11,5 @@ export type RegisterType = {
     password: string;
     nickname : string;
     address : string;
+    detailAddress?: string;
 }

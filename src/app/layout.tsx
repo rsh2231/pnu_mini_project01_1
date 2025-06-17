@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} antialiased`}
       >
         <div className="relative min-h-screen flex flex-col justify-between bg-gradient-to-br from-[#ffffff] via-white to-[#d1f2eb] text-gray-900 font-sans">
-          <div className="absolute inset-0 bg-[url('/textures/noise-light.png')] opacity-10 pointer-events-none z-0" />
+          <div className="absolute inset-0 opacity-10 pointer-events-none z-0" />
           <div
             className="absolute inset-0 bg-no-repeat opacity-20 pointer-events-none z-0"
             style={{ backgroundImage: "url('/images/truck.png')", backgroundPosition: "right 700px bottom -100px" }}
