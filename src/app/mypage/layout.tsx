@@ -16,11 +16,11 @@ export default function MyPageLayout({
   const [showLoginModal, setShowLoginModal] = useState(false);
   const pathname = usePathname();
 
-  // useEffect(() => {
-  //   if (loginState.isLogin !== "logged-in") {
-  //     setShowLoginModal(true);
-  //   }
-  // }, [loginState]);
+  useEffect(() => {
+    if (loginState.isLogin !== "logged-in") {
+      setShowLoginModal(true);
+    }
+  }, [loginState]);
 
   if (showLoginModal) {
     return <LoginModal onclose={() => setShowLoginModal(false)} />;

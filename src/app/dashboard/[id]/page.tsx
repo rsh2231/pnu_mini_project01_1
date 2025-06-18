@@ -137,12 +137,12 @@ export default function PostDetail() {
           />
           <Button01
             caption="수정"
-            bg_color="blue"
+            bg_color="cyan"
             onClick={() => router.push(`/dashboard/edit/${id}`)}
           />
           <Button01
             caption={deleting ? "삭제 중..." : "삭제"}
-            bg_color="blue"
+            bg_color="orange"
             onClick={handleDelete}
           />
         </div>

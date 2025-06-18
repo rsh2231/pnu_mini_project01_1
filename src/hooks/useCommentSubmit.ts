@@ -56,5 +56,26 @@ export function useCommentSubmit() {
     }
   };
 
-  return { submitComment };
+  const deleteComment = async (commentId: number): Promise<boolean> => {
+    try {
+      const res = await fetch(`${springurl}/api/comment/delete?id=${commentId}`, {
+        method: "POST",
+        headers: {
+          Authorization: sessionStorage.getItem("JwtToken") || "",
+        },
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("댓글 삭제 실패");
+
+      alert("댓글이 삭제되었습니다.");
+      return true;
+    } catch (error) {
+      alert("댓글 삭제 실패");
+      console.error(error);
+      return false;
+    }
+  };
+
+  return { submitComment, deleteComment };
 }

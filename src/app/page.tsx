@@ -10,9 +10,10 @@ export default function Home() {
   const [loginstate] = useAtom(isLoginAtom);
 
   return (
-    <main className="w-full flex flex-col">
+    <div className="w-full flex flex-col">
       {/* Main Section */}
       <MainSection />
+      
 
       {/* Solution Section */}
 
@@ -20,6 +21,6 @@ export default function Home() {
       
       {/* How it works Section */}
       <HowItWorksSection />
-    </main>
+    </div>
   );
 }

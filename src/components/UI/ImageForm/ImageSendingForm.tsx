@@ -164,7 +164,7 @@ export default function ImageSendingForm() {
           서버로 전송
         </button>
         <button
-          className={glass_button_variants.teal}
+          className={glass_button_variants.orange}
           type="button"
           onClick={imgcancle}
         >

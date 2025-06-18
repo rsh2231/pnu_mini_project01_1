@@ -120,7 +120,7 @@ export default function Nav() {
             {loginstate.isLogin === "logged-in" ? (
               <Button01
                 caption="로그아웃"
-                bg_color="teal"
+                bg_color="orange"
                 onClick={handleLogout}
               />
             ) : (

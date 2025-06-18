@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CommentDto } from "@/type/commentDto";
 import CommentForm from "./CommentForm";
+import { useCommentSubmit } from "@/hooks/useCommentSubmit"; // ✅ 추가
 
 interface Props {
   comment: CommentDto;
@@ -10,8 +11,19 @@ interface Props {
 export default function CommentItem({ comment, onRefresh }: Props) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const { deleteComment } = useCommentSubmit(); // ✅ 추가
 
   const hasChildren = Array.isArray(comment.children) && comment.children.length > 0;
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm("정말 이 댓글을 삭제하시겠습니까?");
+    if (!confirmed) return;
+
+    const success = await deleteComment(comment.comment_id);
+    if (success) {
+      onRefresh(); // ✅ 새로고침
+    }
+  };
 
   return (
     <div className="ml-4 mt-4 border-l-2 border-slate-700 pl-4">
@@ -40,6 +52,13 @@ export default function CommentItem({ comment, onRefresh }: Props) {
                 : "▲ 답글 접기"}
             </button>
           )}
+
+          <button
+            onClick={handleDelete}
+            className="text-xs text-red-400 hover:underline"
+          >
+            삭제
+          </button>
         </div>
       </div>
 

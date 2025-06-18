@@ -10,7 +10,7 @@ const dummyPosts = [
 export default function MyPostsPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">내 나눔 게시글</h1>
+      <h1 className="text-2xl text-gray-700 font-bold mb-6">내 나눔 게시글</h1>
       <ul className="space-y-4">
         {dummyPosts.map((post) => (
           <li

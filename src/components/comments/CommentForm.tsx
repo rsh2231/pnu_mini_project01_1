@@ -3,6 +3,7 @@
 import React, { useState, FormEvent } from "react";
 import { useFetchUser } from "@/hooks/useFetchUser";
 import { useCommentSubmit } from "@/hooks/useCommentSubmit";
+import { glass_button_variants } from "@/styles/button";
 
 interface CommentFormProps {
   dashId: number;
@@ -62,7 +63,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
       />
       <button
         type="submit"
-        className="mt-2 px-5 py-2 bg-sky-600 text-white rounded-lg shadow-md hover:bg-sky-700 disabled:bg-gray-500 disabled:cursor-not-allowed transition-colors"
+        className={glass_button_variants.blue}
         disabled={loading || !user}
       >
         댓글 등록

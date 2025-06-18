@@ -5,7 +5,7 @@ import ImgSelectButton from "./imgSelectButton";
 import Polybutton from "./polybutton";
 import { canvas } from "framer-motion/client";
 import Link from "next/link";
-import { neon_green_button } from "@/styles/button";
+import { glass_button_variants, neon_green_button } from "@/styles/button";
 import { productselected } from "@/styles/productSelection";
 import { toast } from "react-toastify";
 
@@ -70,7 +70,7 @@ export default function ResultRender({ apiRespone, jobid }: { apiRespone: ApiRes
             </div>
             {/* <ImgSelectButton permitRequest={selectedIdx} result={result} jobid={jobid} selectedname={selectedname}/> */}
             <ImgSelectButton permitRequest={{selectedIdx,selectedname,jobid}} setSelectedIdx={setSelectedIdx}/>
-            <Link href='/' className={neon_green_button}>메인페이지</Link>
+            <Link href='/' className={glass_button_variants.blue}>메인페이지</Link>
         </div>
     );
 }

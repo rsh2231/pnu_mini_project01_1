@@ -14,8 +14,6 @@ export default function MyPageHome() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
         <SummaryCard title="총 신청 내역" value="12건" />
         <SummaryCard title="진행 중" value="3건" />
-        <SummaryCard title="북마크 수" value="5개" />
-        <SummaryCard title="회원 등급" value="일반회원" />
       </div>
     </div>
   );

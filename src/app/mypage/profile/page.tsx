@@ -1,26 +1,21 @@
-// app/mypage/profile/page.tsx
 "use client";
 
 export default function ProfilePage() {
   const user = {
-    name: "홍길동",
-    email: "honggildong@example.com",
-    phone: "010-1234-5678",
-    address: "서울특별시 성북구 정릉로 123",
+    username: "user",
+    nickname: "user",
+    address: "부산시 영도구",
   };
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">내 정보</h1>
+      <h1 className="text-2xl text-gray-700 font-bold">내 정보</h1>
       <div className="bg-white text-gray-700 rounded shadow p-6 space-y-4">
         <p>
-          <strong>이름:</strong> {user.name}
+          <strong>이름:</strong> {user.username}
         </p>
         <p>
-          <strong>이메일:</strong> {user.email}
-        </p>
-        <p>
-          <strong>전화번호:</strong> {user.phone}
+          <strong>닉네임:</strong> {user.nickname}
         </p>
         <p>
           <strong>주소:</strong> {user.address}
