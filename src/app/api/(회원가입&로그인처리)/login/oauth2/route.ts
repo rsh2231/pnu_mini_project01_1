@@ -2,12 +2,12 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req:NextRequest) {
-    const sptingurl = process.env.SPRING_API;
+    const sptingurl = process.env.NEXT_PUBLIC_SPRING_API;
 
     const {provider , returnTo} = await req.json()
     const logname = "넥스트 서버 | api/login/oauth2 | "
     console.log(logname,'provider : ',provider,' returnTo ',returnTo)
-
+    console.log(sptingurl+`/oauth2/authorization/${provider}`)
     const redirectUrl = `${sptingurl}/oauth2/authorization/${provider}`;
     return NextResponse.json({ redirectUrl });
 }
