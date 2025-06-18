@@ -4,7 +4,7 @@ import ImageSendingForm from "@/components/UI/ImageForm/ImageSendingForm";
 import { useAtom } from "jotai";
 import { isLoginAtom } from "@/atoms/IsLoginAtom";
 
-export default function HeroSection() {
+export default function MainSection() {
   const [loginInfo] = useAtom(isLoginAtom); // 로그인 상태 가져오기
 
   return (

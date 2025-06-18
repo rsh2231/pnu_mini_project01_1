@@ -16,11 +16,11 @@ export default function MyPageLayout({
   const [showLoginModal, setShowLoginModal] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    if (loginState.isLogin !== "logged-in") {
-      setShowLoginModal(true);
-    }
-  }, [loginState]);
+  // useEffect(() => {
+  //   if (loginState.isLogin !== "logged-in") {
+  //     setShowLoginModal(true);
+  //   }
+  // }, [loginState]);
 
   if (showLoginModal) {
     return <LoginModal onclose={() => setShowLoginModal(false)} />;
@@ -44,16 +44,10 @@ export default function MyPageLayout({
             신청 내역
           </MypageLink>
           <MypageLink
-            href="/mypage/bookmark"
-            current={pathname === "/mypage/bookmark"}
+            href="/mypage/posts"
+            current={pathname === "/mypage/posts"}
           >
-            북마크
-          </MypageLink>
-          <MypageLink
-            href="/mypage/settings"
-            current={pathname === "/mypage/settings"}
-          >
-            설정
+            나눔 게시글
           </MypageLink>
         </nav>
       </aside>
