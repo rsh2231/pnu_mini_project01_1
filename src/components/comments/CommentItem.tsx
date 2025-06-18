@@ -1,19 +1,24 @@
 import { useState } from "react";
 import { CommentDto } from "@/type/commentDto";
 import CommentForm from "./CommentForm";
-import { useCommentSubmit } from "@/hooks/useCommentSubmit"; // ✅ 추가
+import { useCommentSubmit } from "@/hooks/useCommentSubmit";
 
 interface Props {
   comment: CommentDto;
   onRefresh: () => void;
+  currentUser: string | null; // 로그인한 사용자 이름 (username)
 }
 
-export default function CommentItem({ comment, onRefresh }: Props) {
+export default function CommentItem({ comment, onRefresh, currentUser }: Props) {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const { deleteComment } = useCommentSubmit(); // ✅ 추가
+  const { deleteComment } = useCommentSubmit();
 
+  const isDeleted = comment.enabled === false;
   const hasChildren = Array.isArray(comment.children) && comment.children.length > 0;
+
+  // 작성자 본인만 삭제 가능
+  const canDelete = currentUser === comment.username;
 
   const handleDelete = async () => {
     const confirmed = window.confirm("정말 이 댓글을 삭제하시겠습니까?");
@@ -34,32 +39,37 @@ export default function CommentItem({ comment, onRefresh }: Props) {
           {new Date(comment.created_at).toLocaleString()}
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowReplyForm(!showReplyForm)}
-            className="text-xs text-sky-500 hover:underline"
-          >
-            답글
-          </button>
-
-          {hasChildren && (
+        {/* 삭제된 댓글이면 버튼 숨김 */}
+        {!isDeleted && (
+          <div className="flex items-center gap-3">
             <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="text-xs text-slate-400 hover:underline"
+              onClick={() => setShowReplyForm(!showReplyForm)}
+              className="text-xs text-sky-500 hover:underline"
             >
-              {collapsed
-                ? `▼ ${comment.children!.length}개의 답글`
-                : "▲ 답글 접기"}
+              답글
             </button>
-          )}
 
-          <button
-            onClick={handleDelete}
-            className="text-xs text-red-400 hover:underline"
-          >
-            삭제
-          </button>
-        </div>
+            {hasChildren && (
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="text-xs text-slate-400 hover:underline"
+              >
+                {collapsed
+                  ? `▼ ${comment.children!.length}개의 답글`
+                  : "▲ 답글 접기"}
+              </button>
+            )}
+
+            {canDelete && (
+              <button
+                onClick={handleDelete}
+                className="text-xs text-red-400 hover:underline"
+              >
+                삭제
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {showReplyForm && (
@@ -80,6 +90,7 @@ export default function CommentItem({ comment, onRefresh }: Props) {
               key={child.comment_id}
               comment={child}
               onRefresh={onRefresh}
+              currentUser={currentUser} // 자식 댓글에도 현재 사용자 전달
             />
           ))}
         </div>

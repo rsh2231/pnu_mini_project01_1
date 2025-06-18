@@ -122,14 +122,14 @@ export default function PostDetail() {
     );
   }
 
-   return (
+  return (
     <div className="max-w-5xl mx-auto p-4 sm:p-6 md:p-8 min-h-screen bg-slate-900 rounded-lg shadow-md text-slate-200 space-y-10">
       {/* 상단 제목 및 버튼 */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-700 pb-4 mb-6 gap-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
           게시글 상세
         </h1>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2">
           <Button01
             caption="목록으로"
             bg_color="blue"
@@ -149,12 +149,12 @@ export default function PostDetail() {
       </div>
 
       {/* 게시글 제목 */}
-      <h2 className="text-xl sm:text-2xl font-semibold text-white mb-3">
+      <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-white mb-3">
         {board.title}
       </h2>
 
       {/* 작성자 & 날짜 */}
-      <div className="text-sm text-slate-400 mb-6 flex flex-col sm:flex-row sm:space-x-4">
+      <div className="text-xs sm:text-sm text-slate-400 mb-6 flex flex-col sm:flex-row sm:space-x-4 space-y-1 sm:space-y-0">
         <span>작성자: {board.writer}</span>
         <span>작성일: {new Date(board.createDate).toLocaleString()}</span>
       </div>
@@ -167,7 +167,7 @@ export default function PostDetail() {
 
       {/* 댓글 영역 */}
       <div className="mt-10">
-        <h3 className="text-lg sm:text-xl font-bold mb-4 text-white">
+        <h3 className="text-base sm:text-lg md:text-xl font-bold mb-4 text-white">
           댓글
         </h3>
 

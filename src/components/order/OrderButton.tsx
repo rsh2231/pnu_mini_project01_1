@@ -53,8 +53,8 @@ export default function OrderPage()  {
     try {
       const paymentId = randomId();
       const payment = await PortOne.requestPayment({
-        storeId: process.env.STORE_ID, // 실제 값 입력 필요
-        channelKey: process.env.CHANNEL_KEY, // 실제 값 입력 필요
+        storeId: process.env.STORE_ID, 
+        channelKey: process.env.CHANNEL_KEY, 
         paymentId,
         orderName: item!.name,
         totalAmount: item!.price,

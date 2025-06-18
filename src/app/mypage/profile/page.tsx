@@ -1,11 +1,12 @@
 "use client";
 
+import { useFetchUser } from "@/hooks/useFetchUser";
+
 export default function ProfilePage() {
-  const user = {
-    username: "user",
-    nickname: "user",
-    address: "부산시 영도구",
-  };
+  const { user, loading } = useFetchUser();
+
+  if (loading) return <p>로딩중... ⏳</p>;
+  if (!user) return <p>로그인후 이용 가능합니다.</p>;
 
   return (
     <div className="space-y-6">

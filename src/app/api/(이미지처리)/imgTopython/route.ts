@@ -15,9 +15,10 @@ export async function POST(req:NextRequest) {
     Node.js용 axios는 이 Web API의 FormData를 처리할 수 없음
     axios는 내부적으로 Node.js의 HTTP 스트림을 사용하기 때문에, 
     실제 파일 데이터 (stream/buffer) 를 직접 넣어줘야함*/
+    const token = req.headers.get('authorization')
     const formData = await req.formData();
     const file = formData.get('image');
-    
+    const username = formData.get('username');
     
     if (!file || typeof file === 'string') {
         return NextResponse.json({ error: '이미지를 찾을 수 없습니다.' }, { status: 400 });
@@ -42,7 +43,7 @@ export async function POST(req:NextRequest) {
     // Spring으로 보낼 FormData 구성
     const serverFormData = new FormData();
     serverFormData.append('image', new Blob([buffer], { type: mimetype }), filename);
-    
+    serverFormData.append('username',username??'')
     const sptingurl = process.env.SPRING_API;
     try {
         const res = await axios.post(
@@ -50,7 +51,8 @@ export async function POST(req:NextRequest) {
             serverFormData,
             {
                 headers:{
-                    'Content-Type':'multipart/form-data'
+                    'Content-Type':'multipart/form-data',
+                    'Authorization':token
                 }
             }
         )

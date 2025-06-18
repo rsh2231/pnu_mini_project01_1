@@ -20,7 +20,10 @@ export default function DefalutLogin({ onclose }: { onclose: () => void }) {
       console.log("client 응답 = >", response.data);
 
       if (response.status === 200) {
-        setLoginSate({ isLogin: "logged-in" });
+        setLoginSate({ 
+          isLogin: "logged-in",
+          
+         });
         // const cookie = response.data['set-cookie'][0]
         const token = response.data.authorization;
         sessionStorage.setItem("jwtToken", `${token}`);

@@ -1,57 +1,33 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-type Post = {
-  id: number;
+interface PostDetail {
+  dashId: number;
   title: string;
   content: string;
-  date: string;
-};
+  createdAt: string;
+  nickname: string;
+}
 
-const dummyData: Post[] = [
-  {
-    id: 1,
-    title: "책장 나눔합니다",
-    content: "3단 책장 상태 양호합니다. 성북구 직거래 원해요.",
-    date: "2025-06-18",
-  },
-  {
-    id: 2,
-    title: "의자 필요하신 분",
-    content: "사무용 의자, 약간 사용감 있음. 무료 나눔해요.",
-    date: "2025-06-17",
-  },
-];
+export default async function MyPostDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SPRING_API}/api/post/${params.id}`,
+    { cache: "no-store", credentials: "include" }
+  );
+  const result = await res.json();
+  const post: PostDetail = result.content?.dashboard;
 
-export default function PostDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
-  const [post, setPost] = useState<Post | null>(null);
-
-  useEffect(() => {
-    const found = dummyData.find((p) => p.id === Number(params.id));
-    if (found) {
-      setPost(found);
-    } else {
-      // 없는 게시글이면 리스트로 되돌림
-      router.push("/mypage/posts");
-    }
-  }, [params.id, router]);
-
-  if (!post) return null;
+  if (!post) return <div>게시글을 불러올 수 없습니다.</div>;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl text-gray-700 font-bold">{post.title}</h1>
-      <p className="text-sm text-gray-500">{post.date}</p>
-      <p className="mt-4  text-gray-500">{post.content}</p>
-      <button
-        onClick={() => router.push("/mypage/posts")}
-        className="mt-6 px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
-      >
-        목록으로
-      </button>
+    <div className="p-6 bg-white rounded shadow">
+      <h1 className="text-2xl font-bold text-gray-800 mb-2">{post.title}</h1>
+      <div className="text-sm text-gray-500 mb-4">
+        작성자: {post.nickname} | 작성일:{" "}
+        {new Date(post.createdAt).toLocaleDateString()}
+      </div>
+      <p className="text-gray-700 whitespace-pre-line">{post.content}</p>
     </div>
   );
 }

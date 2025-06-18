@@ -1,7 +1,10 @@
 "use client";
 
+import { isLoginAtom } from "@/atoms/IsLoginAtom";
 import { glass_button_variants } from "@/styles/button";
+import { Logininfo } from "@/type/logininfo";
 import axios from "axios";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
@@ -16,7 +19,7 @@ export default function ImageSendingForm() {
   const [isSubmit, setisSubmit] = useState(false);
   const imageCam = watch("inputFromCam");
   const imageFile = watch("inputFromFile");
-
+  const [loginstate, setloginstate] = useAtom<Logininfo>(isLoginAtom);
   const mobileButton = [
     {
       htmlFor: "inputFromCam",
@@ -82,13 +85,17 @@ export default function ImageSendingForm() {
     }
 
     console.log("ImageSendingForm => 폼입력 데이터", file);
-
+    const username = loginstate.username ?? "";
     const formData = new FormData();
     formData.append("image", file);
-
+    formData.append("username", username);
+    const token = sessionStorage.getItem("jwtToken");
     try {
       const response = await axios.post("api/imgTopython", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: token,
+        },
         withCredentials: true,
       });
 
@@ -170,9 +177,9 @@ export default function ImageSendingForm() {
         >
           취소
         </button>
-      </form>        
+      </form>
       {/* 프리뷰 영역 */}
-      <div className="mt-6 w-[400px] h-[500px] flex justify-center items-center border border-gray-400 rounded-2xl p-5 shadow-sm backdrop-blur-xs overflow-hidden">
+      <div className="relative flex justify-center items-center border border-gray-400 rounded-2xl p-5 mt-10 shadow-sm backdrop-blur-xs overflow-hidden">
         {imagePreview ? (
           <img
             key={imagePreview}

@@ -70,13 +70,13 @@ const PostForm: React.FC = () => {
   };
 
   return (
-    <form className="w-[800px] mx-auto mt-16 p-10 bg-slate-900 rounded-2xl shadow-lg space-y-8 text-slate-200">
-      <h1 className="text-3xl font-bold text-center text-white mb-6">
+    <form className="w-full max-w-[800px] mx-auto mt-16 p-6 sm:p-10 bg-slate-900 rounded-2xl shadow-lg space-y-6 sm:space-y-8 text-slate-200">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center text-white mb-4 sm:mb-6">
         게시글 작성
       </h1>
 
       <div>
-        <label className="block text-lg font-semibold text-slate-300 mb-2">
+        <label className="block text-base sm:text-lg font-semibold text-slate-300 mb-1 sm:mb-2">
           제목
         </label>
         <input
@@ -85,14 +85,14 @@ const PostForm: React.FC = () => {
           onChange={(e) => setTitle(e.target.value)}
           required
           placeholder="제목을 입력하세요"
-          className="w-full px-4 py-3 border rounded-lg text-base bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+          className="w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg text-sm sm:text-base bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="block text-lg font-semibold text-slate-300 mb-2">
+        <label className="block text-base sm:text-lg font-semibold text-slate-300 mb-1 sm:mb-2">
           본문
-          <span className="text-sm text-slate-400 ml-2">
+          <span className="text-xs sm:text-sm text-slate-400 ml-1 sm:ml-2">
             (이미지: Ctrl+V 또는 드래그&드롭)
           </span>
         </label>
@@ -103,7 +103,7 @@ const PostForm: React.FC = () => {
           onPaste={handlePaste}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          className="w-full min-h-[300px] px-4 py-3 border rounded-lg resize-y text-base leading-relaxed bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none overflow-auto"
+          className="w-full min-h-[200px] sm:min-h-[300px] px-3 py-2 sm:px-4 sm:py-3 border rounded-lg resize-y text-sm sm:text-base leading-relaxed bg-slate-800 text-slate-200 border-slate-700 focus:ring-2 focus:ring-sky-500 focus:outline-none overflow-auto"
           suppressContentEditableWarning
           spellCheck={false}
           role="textbox"
@@ -111,7 +111,7 @@ const PostForm: React.FC = () => {
         />
       </div>
 
-      <div className="pt-2">
+      <div className="pt-2 flex justify-center sm:justify-start">
         <Button01 caption="등록하기" bg_color="blue" onClick={handleSubmit} />
       </div>
     </form>

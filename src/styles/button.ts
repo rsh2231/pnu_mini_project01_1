@@ -64,14 +64,18 @@ export const neon_orange_button = clsx(
 );
 
 const glassCommon = clsx(
-  "px-4",
-  "py-2",
+  "px-2.5 py-1 text-xs",
+  "sm:px-3 sm:py-1.5 sm:text-sm",
+  "md:px-3.5 md:py-2 md:text-sm",
+
+  "max-w-[160px] min-w-[80px]",
+  "w-full max-w-xs sm:w-auto",
+
   "font-semibold",
   "rounded-xl",
   "backdrop-blur-md",
   "bg-white",
   "border",
-  "text-sm",
   "shadow-md",
   "transition-all",
   "duration-300",
@@ -79,7 +83,9 @@ const glassCommon = clsx(
   "cursor-pointer",
   "focus:outline-none",
   "focus:ring-1",
-  "focus:ring-offset-0"
+  "focus:ring-offset-0",
+  "disabled:opacity-50",
+  "disabled:cursor-not-allowed"
 );
 
 export const glass_button_variants = {
@@ -87,24 +93,24 @@ export const glass_button_variants = {
     glassCommon,
     "text-blue-500",
     "border-blue-300",
-    "hover:bg-gray-200",
-    "hover:shadow-[0_0_6px_rgba(59,130,246,0.3)]",
+    "hover:bg-gray-100",
+    "hover:shadow-[0_0_8px_rgba(59,130,246,0.35)]",
     "focus:ring-blue-300"
   ),
   cyan: clsx(
     glassCommon,
     "text-cyan-500",
     "border-cyan-300",
-    "hover:bg-gray-200",
-    "hover:shadow-[0_0_6px_rgba(34,211,238,0.3)]",
+    "hover:bg-gray-100",
+    "hover:shadow-[0_0_8px_rgba(34,211,238,0.35)]",
     "focus:ring-cyan-300"
   ),
   orange: clsx(
     glassCommon,
     "text-orange-500",
-    "border-teal-300",
-    "hover:bg-gray-200",
-    "hover:shadow-[0_0_6px_rgba(20,184,166,0.3)]",
-    "focus:ring-teal-300"
+    "border-orange-300",
+    "hover:bg-gray-100",
+    "hover:shadow-[0_0_8px_rgba(249,115,22,0.35)]",
+    "focus:ring-orange-300"
   ),
 } as const;

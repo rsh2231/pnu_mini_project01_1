@@ -46,8 +46,11 @@ export default function Nav() {
             headers: { Authorization: sessionToken },
             withCredentials: true,
           });
-          console.log(res.data);
-          setloginstate({ isLogin: "logged-in" });
+          console.log("로그인 유저정보", res.data);
+          setloginstate({
+            isLogin: "logged-in",
+            username: res.data.username,
+          });
         } catch (error: any) {
           console.error(
             "유저 불러오기 실패 Nav : ",
@@ -95,28 +98,26 @@ export default function Nav() {
   return (
     <>
       <header className="bg-[#0f172a]/90 backdrop-blur-md text-white shadow-sm border-b border-blue-800 sticky top-0 z-50 overflow-visible">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
           {/* 왼쪽 로고 영역 */}
           <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition">
             <Link href="/">WasteSort</Link>
           </div>
 
           {/* 가운데 네비게이션 */}
-          <nav className="flex gap-6 items-center text-md font-medium">
+          <nav className="flex flex-wrap gap-4 sm:gap-6 items-center text-sm sm:text-md font-medium justify-center">
             <NavLink href="/">홈</NavLink>
             <NavLink href="/waste-fees">대형폐기물</NavLink>
-            {/* {loginstate.isLogin === "logged-in" && ( */}
             <NavLink href="/dashboard">나눔게시판</NavLink>
-            {/* )} */}
           </nav>
 
           {/* 오른쪽 버튼 */}
-          <div className="flex items-center gap-3">
-            {/* {loginstate.isLogin === "logged-in" && ( */}
+          <div className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center">
+            {loginstate.isLogin === "logged-in" && (
               <Link href="/mypage">
                 <Button01 caption="마이페이지" bg_color="cyan" />
               </Link>
-            {/* )} */}
+            )}
             {loginstate.isLogin === "logged-in" ? (
               <Button01
                 caption="로그아웃"

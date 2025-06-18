@@ -33,7 +33,8 @@ export function useFetchUser() {
         
         const member:User =  {
           "username":data.username,
-          "nickname":data.nickname
+          "nickname":data.nickname,
+          "address":data.address,
         }
         console.log(member)
         if (!member) throw new Error("유저 정보 없음");
