@@ -7,7 +7,7 @@ export async function POST(req:NextRequest) {
     const {provider , returnTo} = await req.json()
     const logname = "넥스트 서버 | api/login/oauth2 | "
     console.log(logname,'provider : ',provider,' returnTo ',returnTo)
-
+    console.log(sptingurl+`/oauth2/authorization/${provider}`)
     const redirectUrl = `${sptingurl}/oauth2/authorization/${provider}`;
     return NextResponse.json({ redirectUrl });
 }
