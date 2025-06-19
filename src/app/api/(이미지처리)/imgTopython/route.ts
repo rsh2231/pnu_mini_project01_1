@@ -47,7 +47,7 @@ export async function POST(req:NextRequest) {
     const sptingurl = process.env.SPRING_API;
     try {
         const res = await axios.post(
-            `${sptingurl}/api/inference`,
+            `${sptingurl}/member/api/inference/block`,
             serverFormData,
             {
                 headers:{

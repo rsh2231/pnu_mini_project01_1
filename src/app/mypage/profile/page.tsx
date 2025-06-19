@@ -5,8 +5,21 @@ import { useFetchUser } from "@/hooks/useFetchUser";
 export default function ProfilePage() {
   const { user, loading } = useFetchUser();
 
-  if (loading) return <p>로딩중... ⏳</p>;
-  if (!user) return <p>로그인후 이용 가능합니다.</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-700 font-bold">로딩중... ⏳</p>
+      </div>
+    );
+
+  if (!user)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-700 font-bold">
+          로그인후 이용 가능합니다.
+        </p>
+      </div>
+    );
 
   return (
     <div className="space-y-6">

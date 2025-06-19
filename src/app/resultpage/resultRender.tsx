@@ -98,50 +98,56 @@ export default function ResultRender({
   // }
 
   return (
-    <div className="w-7/10 max-w-screen-lg mx-auto px-4 space-y-4">
+    <div>
       {/* w에 절대 max주면 안됨!!!!! */}
       {/* svg에 w fit 절대 금지 */}
-      <div className="relative w-full overflow-hidden rounded-lg border border-slate-700 shadow-lg">
-        <img
-          src={result.image_base64}
-          alt="result"
-          ref={imgRef}
-          className="w-full h-auto pointer-events-none object-contain"
-          onLoad={handleonLoad}
-        />
-        <svg
-          viewBox={`0 0 ${result.viewSize[0]} ${result.viewSize[1]}`}
-          className="absolute top-0 left-0 w-full h-full"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          <Polybutton
-            names={result.names}
-            poly={result.poly}
-            jobid={jobid}
-            setSelectedIdx={setSelectedIdx}
-            selectedIdx={selectedIdx}
+      <div
+        style={{
+          width: 680,
+          margin: "0 auto",
+          position: "relative",
+        }}
+      >
+        <div className="relative">
+          <img
+            src={result.image_base64}
+            alt="result"
+            className="w-full h-auto border rounded-lg pointer-events-none"
+            onLoad={handleonLoad}
           />
-        </svg>
+          <svg
+            viewBox={`0 0 ${result.viewSize[0]} ${result.viewSize[1]}`}
+            className="absolute top-0 left-0 w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <Polybutton
+              names={result.names}
+              poly={result.poly}
+              jobid={jobid}
+              setSelectedIdx={setSelectedIdx}
+              selectedIdx={selectedIdx}
+            />
+          </svg>
+        </div>
       </div>
 
-      <div className="text-sm text-center text-slate-400">
-        이미지 사이즈: {imwidth},{imheight}
-      </div>
-      <div className="text-center font-semibold text-slate-200 text-base sm:text-lg">
+      {/* 선택 영역 - 이미지 영역 너비와 맞추고 가운데 정렬 */}
+      <div className="m-5 text-center font-semibold text-slate-200 text-base sm:text-lg">
         현재 선택
       </div>
-      <div className="flex flex-wrap justify-center gap-2 text-sm border rounded-lg p-5 ">
+      <div className="flex flex-wrap justify-center gap-2 text-sm border rounded-lg p-5 max-w-[680px] mx-auto">
         {selectedIdx.map((i) => (
           <span
             key={i}
-            className={`${glass_button_variants.blue} px-3 py-1 text-xs sm:text-sm`}
+            className={`${glass_button_variants.blue} inline-flex items-center justify-center px-3 py-1 text-xs text-center sm:text-sm`}
+            title={result.names[i]}
           >
             {result.names[i]}
           </span>
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-center gap-3 mt-2">
+      <div className="flex flex-col sm:flex-row justify-center gap-3 mt-2 max-w-[680px] mx-auto">
         <ImgSelectButton
           permitRequest={{ selectedIdx, selectedname, jobid }}
           setSelectedIdx={setSelectedIdx}

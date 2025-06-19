@@ -101,7 +101,7 @@ export default function Nav() {
         <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
           {/* 왼쪽 로고 영역 */}
           <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition">
-            <Link href="/">WasteSort</Link>
+            <Link href="/">Sortify</Link>
           </div>
 
           {/* 가운데 네비게이션 */}

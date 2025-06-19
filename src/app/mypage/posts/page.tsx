@@ -25,7 +25,7 @@ export default function MyPostsPage() {
         );
         const result = await res.json();
 
-        const postList = result.content?.dashResponseDto?.dashboards  ?? [];
+        const postList = result.content?.dashResponseDto?.dashboards ?? [];
 
         console.log("result:", result);
         console.log("posts:", result.content?.dashResponseDto?.dashboards);
@@ -38,8 +38,21 @@ export default function MyPostsPage() {
     fetchMyPosts();
   }, [user]);
 
-  if (loading) return <div>로딩 중...</div>;
-  if (!user) return <div>로그인이 필요합니다.</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-700 font-bold">로딩중... ⏳</p>
+      </div>
+    );
+
+  if (!user)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-700 font-bold">
+          로그인후 이용 가능합니다.
+        </p>
+      </div>
+    );
 
   return (
     <div>

@@ -64,13 +64,16 @@ export const neon_orange_button = clsx(
 );
 
 const glassCommon = clsx(
-  "px-2.5 py-1 text-xs",
-  "sm:px-3 sm:py-1.5 sm:text-sm",
-  "md:px-3.5 md:py-2 md:text-sm",
+  "px-2.5 py-1 text-xs",                             // 기본 여백 및 글자 크기
+  "sm:px-3 sm:py-1.5 sm:text-sm",                   // sm 이상에서 여백 확대
+  "md:px-3.5 md:py-2 md:text-sm",                   // md 이상에서 여백 더 확대
 
-  "max-w-[160px] min-w-[80px]",
-  "w-full max-w-xs sm:w-auto",
+  // 너비 관련
+  "w-auto",                                         // 항상 내용 길이에 맞게 너비 자동
+  "min-w-0",                                        // 최소 너비 강제 제거
+  "max-w-full",                                     // 너무 길어지는 경우 부모 내에서만 표시
 
+  // 기타 디자인 요소
   "font-semibold",
   "rounded-xl",
   "backdrop-blur-md",
@@ -85,7 +88,8 @@ const glassCommon = clsx(
   "focus:ring-1",
   "focus:ring-offset-0",
   "disabled:opacity-50",
-  "disabled:cursor-not-allowed"
+  "disabled:cursor-not-allowed",
+  "inline-flex items-center justify-center truncate" // 정렬 및 말줄임
 );
 
 export const glass_button_variants = {

@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <footer className="relative z-10 text-sm text-gray-400 text-center border-t border-blue-900 py-6 bg-[#0f172a]/90">
-            © 2025 WasteSort. All rights reserved.<br/>
+            © 2025 Sortify. All rights reserved.<br/>
             부산광역시 금정구 부산대학로63번길 2 (장전동)
           </footer>
         </div>

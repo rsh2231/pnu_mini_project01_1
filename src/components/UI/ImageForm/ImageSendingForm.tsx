@@ -33,6 +33,33 @@ export default function ImageSendingForm() {
     },
   ];
 
+  // ← 여기부터 새로 추가
+  const MAX_SIZE = 680; // 최대 크기
+
+  const [imgSize, setImgSize] = useState<{ width: number; height: number }>({
+    width: 300,
+    height: 300,
+  });
+
+  const handlePreviewImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    const img = e.currentTarget;
+    const naturalWidth = img.naturalWidth;
+    const naturalHeight = img.naturalHeight;
+
+    if (naturalWidth && naturalHeight) {
+      if (naturalWidth > naturalHeight) {
+        const ratio = naturalHeight / naturalWidth;
+        setImgSize({ width: MAX_SIZE, height: Math.round(MAX_SIZE * ratio) });
+      } else {
+        const ratio = naturalWidth / naturalHeight;
+        setImgSize({ width: Math.round(MAX_SIZE * ratio), height: MAX_SIZE });
+      }
+    }
+  };
+  // ← 여기까지 새로 추가
+
   useEffect(() => {
     setIsClientMobile(isMobile);
   }, []);
@@ -179,16 +206,21 @@ export default function ImageSendingForm() {
         </button>
       </form>
       {/* 프리뷰 영역 */}
-      <div className="relative flex justify-center items-center border border-gray-400 rounded-2xl p-5 mt-10 shadow-sm backdrop-blur-xs overflow-hidden">
+      <div
+        className="relative flex justify-center items-center border border-gray-400 rounded-2xl p-5 mt-10 shadow-sm backdrop-blur-xs overflow-hidden"
+        style={{ width: imgSize.width, height: imgSize.height }}
+      >
         {imagePreview ? (
           <img
             key={imagePreview}
             src={imagePreview}
             alt="preview"
-            className="w-full h-full rounded-lg object-contain"
+            onLoad={handlePreviewImageLoad}
+            style={{ width: imgSize.width, height: imgSize.height }}
+            className="rounded-lg object-contain"
           />
         ) : (
-          <span className="text-gray-400 text-sm">
+          <span className="text-gray-400 text-sm text-center">
             이미지를 선택하면 미리보기가 표시됩니다
           </span>
         )}

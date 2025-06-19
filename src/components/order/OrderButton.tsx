@@ -53,12 +53,12 @@ export default function OrderPage()  {
     try {
       const paymentId = randomId();
       const payment = await PortOne.requestPayment({
-        storeId: process.env.STORE_ID, 
+        storeId: process.env.STORE_ID!, 
         channelKey: process.env.CHANNEL_KEY, 
         paymentId,
         orderName: item!.name,
         totalAmount: item!.price,
-        currency: item!.currency,
+        currency: item!.currency!,
         payMethod: "CARD",
         customData: { item: item!.id },
       });
