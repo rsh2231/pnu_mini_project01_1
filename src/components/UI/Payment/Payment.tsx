@@ -9,55 +9,93 @@ import { useFetchUser } from "@/hooks/useFetchUser";
 
 export default function Payment({
   onclose,
-  jobid,
   data,
+  originaldata,
 }: {
   onclose: () => void;
-  jobid: string;
   data: any;
+  originaldata: ImagePermitRequestDTO;
 }) {
-  const sorteditems = data.flat(); // 2중 배열이라면 flat 처리
-  const [sortitme, setsorttime] = useState<SortItem>();
-  const {user, loading} = useFetchUser()
+  const sorteditems = data.flat(); // 2중 배열이라면 평탄화
+
+  const { user, loading } = useFetchUser();
+
+  const [confirm, setconfirm] = useState<ImagePermitRequestDTO>(originaldata);
+
   const [selectedItems, setSelectedItems] = useState<Set<string>>(
     new Set(
       sorteditems.map(
-        (item: any, idx: number) => `${idx}_${item.품명}_${item.규격}`
+        (item: any) =>
+          `${item.index}_${item.furnitureList[0].품명}_${item.furnitureList[0].규격}`
       )
     )
   );
 
-  const router = useRouter();
-
-  const handlePaymentClick = async () => {
-    router.push("/order"); // order 페이지로 이
-    // try {
-    //   const res = await axios.post('http://10.125.121.184:8080/api/' ,sortitme ,)
-    //   if (res.status==200 ) {
-
-    //   }
-    // } catch (error) {
-
-    // }
-  };
-
   const toggleSelect = (itemKey: string) => {
+    const [indexStr, name, type] = itemKey.split("_");
+    const idx = parseInt(indexStr);
+    const rename = `${name}_${type}`;
+
     setSelectedItems((prev) => {
       const newSet = new Set(prev);
+      let newSelectedIdx = [...confirm.selectedIdx];
+      let newSelectedName = [...confirm.selectedname];
+
+      const idxPos = newSelectedIdx.indexOf(idx);
+
       if (newSet.has(itemKey)) {
         newSet.delete(itemKey);
+        if (idxPos !== -1) {
+          newSelectedIdx.splice(idxPos, 1);
+          newSelectedName.splice(idxPos, 1);
+        }
       } else {
         newSet.add(itemKey);
+        newSelectedIdx.push(idx);
+        newSelectedName.push(rename);
       }
+
+      setconfirm({
+        jobid: originaldata.jobid,
+        selectedIdx: newSelectedIdx,
+        selectedname: newSelectedName,
+      });
+
       return newSet;
     });
   };
 
   const totalFee = sorteditems
-    .filter((item: any, idx: number) =>
-      selectedItems.has(`${idx}_${item.품명}_${item.규격}`)
-    )
-    .reduce((sum: number, item: any) => sum + parseInt(item.수수료 || "0"), 0);
+    .filter((item: any) => {
+      const key = `${item.index}_${item.furnitureList[0].품명}_${item.furnitureList[0].규격}`;
+      return selectedItems.has(key);
+    })
+    .reduce((sum: number, item: any) => {
+      return sum + parseInt(item.furnitureList[0].수수료 || "0");
+    }, 0);
+
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
+
+  const handlePaymentClick = async () => {
+    console.log("originaldata", originaldata);
+    console.log("confirm", confirm);
+    console.log("selectedItems", selectedItems);
+    console.log("sorteditems", sorteditems);
+
+    // 실제 결제 요청 보내는 부분 (주석 처리 상태)
+    try {
+      const res = await axios.post(
+        `${springurl}/api/inference/${originaldata.jobid}/permission/final`,
+        confirm,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("제출 응답", res);
+    } catch (error) {
+      console.error("결제 오류", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex justify-center items-center z-50 p-4">
@@ -77,8 +115,9 @@ export default function Payment({
 
         {/* 품목 리스트 */}
         <div className="flex flex-col space-y-2 sm:space-y-3 text-gray-800 text-sm sm:text-base mb-8">
-          {sorteditems.map((item: any, idx: number) => {
-            const itemKey = `${idx}_${item.품명}_${item.규격}`;
+          {sorteditems.map((item: any) => {
+            const furniture = item.furnitureList[0];
+            const itemKey = `${item.index}_${furniture.품명}_${furniture.규격}`;
             const isSelected = selectedItems.has(itemKey);
 
             return (
@@ -94,10 +133,12 @@ export default function Payment({
                 `}
                 type="button"
               >
-                <span className="mr-2 text-gray-400">{item.연번}.</span>
-                <span>{item.품명}</span>
-                <span className="ml-1 text-gray-500">({item.규격})</span>
-                <span className="float-right font-mono">{item.수수료}원</span>
+                <span className="mr-2 text-gray-400">{furniture.연번}.</span>
+                <span>{furniture.품명}</span>
+                <span className="ml-1 text-gray-500">({furniture.규격})</span>
+                <span className="float-right font-mono">
+                  {furniture.수수료}원
+                </span>
               </button>
             );
           })}
@@ -111,12 +152,17 @@ export default function Payment({
 
         {/* 버튼 그룹 */}
         <div className="flex justify-end space-x-4">
-            <OrderPage
-              selectedItems={sorteditems.filter((item: any, idx: number) =>
-                selectedItems.has(`${idx}_${item.품명}_${item.규격}`)
-              )}
-              user={user}
-            />
+          <Button01
+            caption="결제"
+            bg_color="blue"
+            onClick={handlePaymentClick}
+          />
+          {/* <OrderPage
+            selectedItems={sorteditems.filter((item: any, idx: number) =>
+              selectedItems.has(`${idx}_${item.품명}_${item.규격}`)
+            )}
+            user={user}
+          /> */}
           <Button01 caption="닫기" bg_color="orange" onClick={onclose} />
         </div>
       </div>

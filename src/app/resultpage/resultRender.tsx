@@ -97,25 +97,31 @@ export default function ResultRender({
   //     );
   // }
 
-  return (
-    <div className="flex flex-col items-center w-full px-4">
-      {/* w에 절대 max주면 안됨!!!!! */}
-      {/* svg에 w fit 절대 금지 */}
+const [w, h] = result.viewSize;
+const fixedWidth = 680;
+const fixedHeight = (h / w) * fixedWidth;
+
+ return (
+    <div className="flex flex-col items-center px-4">
+      {/* ✅ 이미지 및 SVG 프리뷰 영역 (고정 크기 박스) */}
       <div
-        className="relative w-full max-w-[680px] mx-auto"
+        className="relative"
         style={{
-          aspectRatio: `${result.viewSize[0]} / ${result.viewSize[1]}`,
+          width: `${fixedWidth}px`,
+          height: `${fixedHeight}px`,
         }}
       >
+        {/* ❗ 절대 수정 금지 영역 시작 */}
         <div className="relative w-full h-full">
           <img
             src={result.image_base64}
             alt="result"
             className="w-full h-full object-contain border pointer-events-none"
             onLoad={handleonLoad}
+            ref={imgRef}
           />
           <svg
-            viewBox={`0 0 ${result.viewSize[0]} ${result.viewSize[1]}`}
+            viewBox={`0 0 ${w} ${h}`}
             className="absolute top-0 left-0 w-full h-full"
             preserveAspectRatio="xMidYMid meet"
           >
@@ -128,6 +134,7 @@ export default function ResultRender({
             />
           </svg>
         </div>
+        {/* ❗ 절대 수정 금지 영역 끝 */}
       </div>
 
       {/* ✅ 현재 선택 영역 */}
@@ -152,6 +159,9 @@ export default function ResultRender({
           permitRequest={{ selectedIdx, selectedname, jobid }}
           setSelectedIdx={setSelectedIdx}
         />
+        <Link href="/" className={glass_button_variants.blue}>
+          메인페이지
+        </Link>
       </div>
     </div>
   );

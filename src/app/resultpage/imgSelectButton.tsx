@@ -27,14 +27,15 @@ export default function ImgSelectButton({
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
+      console.log('📄파이썬으로 선택한 데이터요청 :' , permitRequest)
       console.log("✅승인 결과 응답", res.data);
-      console.log(res.data.spring_response.data.body);
+      console.log('✅승인 결과 데이터',res.data.spring_response.data.body);
       if (res.data.spring_response.status === "200" && res.status == 200) {
         setpayment(
           <Payment
             onclose={() => setpayment(undefined)}
             data={res.data.spring_response.data.body}
-            jobid={permitRequest.jobid}
+            originaldata={permitRequest}
           />
         );
       }
