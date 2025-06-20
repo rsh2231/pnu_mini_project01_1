@@ -51,3 +51,9 @@ interface OrderItemDto {
   itemName: string;
   itemPrice: number;
 }
+
+interface OrderResponse {
+  filePath: string;
+  order: OrderDto;
+  orderItems?: OrderItemDto[];
+}

@@ -4,6 +4,8 @@ import PortOne from "@portone/browser-sdk/v2";
 import { Content } from "next/font/google";
 import { useEffect, useState, FormEvent } from "react";
 import Button01 from "../etc/Button01";
+import { v4 as uuidv4 } from 'uuid';
+import axios from "axios";
 
 type OrderPageProps = {
   selectedItems: any,
@@ -37,7 +39,7 @@ export default function OrderPage({selectedItems, user}:OrderPageProps)  {
   const [totalPrice,setTotalPrice] = useState()
   const [isLoading2 , setIsLoading] = useState(false)
   const products = []
-
+  let recode:Record<string,number> = {}
 
   let itemName = ""
       itemName = selectedItems[0]['품명'] 
@@ -65,8 +67,8 @@ export default function OrderPage({selectedItems, user}:OrderPageProps)  {
 async function loadItem() {
     const data = 
                 { 
-                    "id": "아이템_id",
-                    "name": "아이템이름",
+                    "id": String(uuidv4()),
+                    "name": itemName,
                     "price": selectedItems
                               .flat()
                               .reduce(
@@ -75,8 +77,6 @@ async function loadItem() {
                     "currency": "KRW"
                 };
       setItem(data)
-      
-      console.log(data)
     }
     setIsLoading(true)
     loadItem().catch((error) => console.error(error))
@@ -103,8 +103,8 @@ async function loadItem() {
         //채널키
         channelKey: process.env.NEXT_PUBLIC_CHANNEL_KEY, 
         //고객사 주문 고유번호
-        //토스, 카페등
-        paymentId,
+        //우리가 만드는 주문코드
+        paymentId : item?.id,
         //주문명
         orderName: itemName,
         //결제 금액
@@ -136,10 +136,67 @@ async function loadItem() {
         return;
       }
 
+    //   selectedItems.map(selItem => products.push(
+    //    {
+    //       id: selItem['id'],
+    //       name: selItem['품명'],
+    //       code: selItem['규격'],
+    //       amount: selItem['수수료'],
+    //       quantity: 1,
+    //       tag: selItem['연번'],
+    //       link: "https://shop.com/products/A1002"
+    //   }
+    // ))
+      
+      selectedItems.map(
+        n => recode[n.id + "_" + n['품명'] + "_" + n['규격']] = parseInt(n['수수료'])
+      )
+
+      console.log(sessionStorage.getItem("jwtToken"))
+
+      //여기서 order주문을 생성해야함
+      const orderResp = await axios.post(process.env.NEXT_PUBLIC_SPRING_API + "/api/order/create",{
+          "caller" : "string",
+          "method" : "read",
+          "status" : "200",
+          "message" : "success",
+          "content":{
+                  "order":{
+                          "orderId" : item?.id,
+                          "filePath" : "file",
+                          "totalPrice" : selectedItems
+                                                .flat()
+                                                .reduce(
+                                                  (total: number, item: any) =>
+                                                    total + (parseInt(item.수수료) || 0),0),
+                          "username" : user.username,
+                          "itemPrice" : recode
+                      }
+            }       
+        },
+        {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": sessionStorage.getItem("jwtToken")
+        },
+        withCredentials:true
+      }
+      );
+      //                     "orderId" : item?.id,
+      //                     "filePath" : "file",
+      //                     "totalPrice" : selectedItems
+      //                                           .flat()
+      //                                           .reduce(
+      //                                             (total: number, item: any) =>
+      //                                               total + (parseInt(item.수수료) || 0),0),
+      //                     "username" : user.username,
+      //                     "itemPrice" : recode,
+
+      //결제 요청된 결과가 맞는지 확인
       const completeResponse = await fetch("/api/payment/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentId: payment.paymentId }),
+        body: JSON.stringify({ paymentId: payment.paymentId ,orderId : item?.id}),
       });
 
       if (completeResponse.ok) {

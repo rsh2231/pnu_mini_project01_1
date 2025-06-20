@@ -4,21 +4,18 @@ import { useState } from "react";
 import Button01 from "@/components/etc/Button01";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import OrderPage from "@/components/order/OrderPage";
-import { useFetchUser } from "@/hooks/useFetchUser";
 
 export default function Payment({
   onclose,
   data,
-  originaldata,
+  originaldata
 }: {
   onclose: () => void;
   data: any;
   originaldata: ImagePermitRequestDTO;
 }) {
   const sorteditems = data.flat(); // 2중 배열이라면 평탄화
-
-  const { user, loading } = useFetchUser();
+  const router = useRouter();
 
   const [confirm, setconfirm] = useState<ImagePermitRequestDTO>(originaldata);
 
@@ -74,24 +71,20 @@ export default function Payment({
       return sum + parseInt(item.furnitureList[0].수수료 || "0");
     }, 0);
 
-  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
-
   const handlePaymentClick = async () => {
     console.log("originaldata", originaldata);
     console.log("confirm", confirm);
     console.log("selectedItems", selectedItems);
     console.log("sorteditems", sorteditems);
 
+    const springurl = process.env.SPRING_API;
+
     // 실제 결제 요청 보내는 부분 (주석 처리 상태)
     try {
-      const res = await axios.post(
-        `${springurl}/api/inference/${originaldata.jobid}/permission/final`,
-        confirm,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      console.log("제출 응답", res);
+      const res = await axios.post(`${springurl}/api/inference/${originaldata.jobid}/permission/final`, confirm, {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log("제출 응답", res)
     } catch (error) {
       console.error("결제 오류", error);
     }
@@ -110,7 +103,8 @@ export default function Payment({
         <div className="mb-6 text-center text-gray-600 text-sm sm:text-base leading-relaxed">
           품목을 클릭하여 <span className="font-semibold">선택하거나 해제</span>
           할 수 있습니다.
-          <br />총 수수료는 선택된 품목들의 합계입니다.
+          <br />
+          총 수수료는 선택된 품목들의 합계입니다.
         </div>
 
         {/* 품목 리스트 */}
@@ -136,9 +130,7 @@ export default function Payment({
                 <span className="mr-2 text-gray-400">{furniture.연번}.</span>
                 <span>{furniture.품명}</span>
                 <span className="ml-1 text-gray-500">({furniture.규격})</span>
-                <span className="float-right font-mono">
-                  {furniture.수수료}원
-                </span>
+                <span className="float-right font-mono">{furniture.수수료}원</span>
               </button>
             );
           })}
@@ -152,17 +144,7 @@ export default function Payment({
 
         {/* 버튼 그룹 */}
         <div className="flex justify-end space-x-4">
-          <Button01
-            caption="결제"
-            bg_color="blue"
-            onClick={handlePaymentClick}
-          />
-          {/* <OrderPage
-            selectedItems={sorteditems.filter((item: any, idx: number) =>
-              selectedItems.has(`${idx}_${item.품명}_${item.규격}`)
-            )}
-            user={user}
-          /> */}
+          <Button01 caption="결제" bg_color="blue" onClick={handlePaymentClick} />
           <Button01 caption="닫기" bg_color="orange" onClick={onclose} />
         </div>
       </div>

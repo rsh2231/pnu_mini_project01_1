@@ -9,7 +9,7 @@ import { Logininfo } from "@/type/logininfo";
 import { isLoginAtom } from "@/atoms/IsLoginAtom";
 import axios from "axios";
 import { redirect, usePathname, useRouter } from "next/navigation";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Nav() {
   // 로그인모달창 처리
@@ -122,7 +122,7 @@ export default function Nav() {
           </nav>
 
           {/* 오른쪽 버튼 */}
-          <div className="flex flex-wrap gap-2 sm:gap-3 items-center justify-center">
+          <div className="flex flex-nowrap gap-2 sm:gap-3 items-center justify-center whitespace-nowrap">
             {loginstate.isLogin === "logged-in" && (
               <Link href="/mypage">
                 <Button01 caption="마이페이지" bg_color="cyan" />

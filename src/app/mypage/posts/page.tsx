@@ -27,7 +27,7 @@ export default function MyPosts() {
       <h1 className="text-2xl sm:text-3xl font-bold mb-8 border-b border-blue-900 pb-3">
         📝 내가 작성한 글
       </h1>
-      <BoardList fixedWriter={user.username} />
+      <BoardList fixedWriter={user.nickname} />
     </div>
   );
 }

@@ -98,17 +98,17 @@ export default function ResultRender({
   // }
 
 const [w, h] = result.viewSize;
-const fixedWidth = 680;
-const fixedHeight = (h / w) * fixedWidth;
 
- return (
-    <div className="flex flex-col items-center px-4">
+return (
+    <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 max-w-[680px] mx-auto">
       {/* ✅ 이미지 및 SVG 프리뷰 영역 (고정 크기 박스) */}
       <div
-        className="relative"
+        className="relative w-full max-w-full"
         style={{
-          width: `${fixedWidth}px`,
-          height: `${fixedHeight}px`,
+          width: `${w}px`,
+          height: `${h}px`,
+          maxWidth: "100%",
+          maxHeight: "80vh",
         }}
       >
         {/* ❗ 절대 수정 금지 영역 시작 */}
@@ -141,11 +141,13 @@ const fixedHeight = (h / w) * fixedWidth;
       <div className="m-6 text-center font-semibold text-slate-200 text-base sm:text-lg">
         현재 선택
       </div>
-      <div className="flex flex-wrap justify-center gap-2 text-sm border rounded-lg p-4 max-w-[680px] w-full mx-auto">
+      <div className="flex flex-wrap justify-center gap-2 text-sm border rounded-lg p-4 max-w-full w-full mx-auto">
         {selectedIdx.map((i) => (
           <span
             key={i}
-            className={`${glass_button_variants.blue} inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
+            className={`${
+              glass_button_variants.blue
+            } inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
             title={result.names[i]}
           >
             {result.names[i]}
@@ -154,14 +156,11 @@ const fixedHeight = (h / w) * fixedWidth;
       </div>
 
       {/* ✅ 버튼 영역 */}
-      <div className="flex flex-col sm:flex-row justify-center gap-3 mt-4 max-w-[680px] w-full">
+      <div className="flex flex-wrap justify-center gap-3 mt-4 max-w-full w-full">
         <ImgSelectButton
           permitRequest={{ selectedIdx, selectedname, jobid }}
           setSelectedIdx={setSelectedIdx}
         />
-        <Link href="/" className={glass_button_variants.blue}>
-          메인페이지
-        </Link>
       </div>
     </div>
   );
