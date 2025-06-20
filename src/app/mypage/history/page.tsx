@@ -39,7 +39,7 @@ export default function HistoryPage() {
         const orderList: OrderDto[] = res.data?.content?.orders || [];
         setOrders(orderList);
         if (orderList.length > 0) {
-          setSelectedOrderId(orderList[0].orderId);
+          setSelectedOrderId(String(orderList[0].orderId));
         }
       })
       .catch(() => setError("신청 내역을 불러오는 데 실패했습니다."))

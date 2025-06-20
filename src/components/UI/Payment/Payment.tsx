@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Button01 from "@/components/etc/Button01";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import OrderPage from "@/components/order/OrderPage";
+import { useFetchUser } from "@/hooks/useFetchUser";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Payment({
   onclose,
@@ -18,7 +21,8 @@ export default function Payment({
   const router = useRouter();
 
   const [confirm, setconfirm] = useState<ImagePermitRequestDTO>(originaldata);
-
+  const [orderP, setOrderP] = useState<React.JSX.Element>()
+  const [pathP, setpathP] = useState("");
   const [selectedItems, setSelectedItems] = useState<Set<string>>(
     new Set(
       sorteditems.map(
@@ -27,12 +31,13 @@ export default function Payment({
       )
     )
   );
+  const {user,loading} = useFetchUser()
 
   const toggleSelect = (itemKey: string) => {
     const [indexStr, name, type] = itemKey.split("_");
     const idx = parseInt(indexStr);
     const rename = `${name}_${type}`;
-
+    
     setSelectedItems((prev) => {
       const newSet = new Set(prev);
       let newSelectedIdx = [...confirm.selectedIdx];
@@ -81,9 +86,19 @@ export default function Payment({
 
     // 실제 결제 요청 보내는 부분 (주석 처리 상태)
     try {
-      const res = await axios.post(`${springurl}/api/inference/${originaldata.jobid}/permission/final`, confirm, {
+      const res = await axios.post(`http://10.125.121.184:8080/api/inference/${originaldata.jobid}/permission/final`, confirm, {
         headers: { "Content-Type": "application/json" },
-      });
+      })
+      console.log(sorteditems.map((item:any) => item.furnitureList[0]))
+
+      if (res.status ===200) {
+        setpathP(res.data.data.path)
+        setOrderP(<OrderPage selectedItems={sorteditems.map((item:any) => item.furnitureList[0]).filter((item: any) => {
+                                                        const key = `${item.index}_${item.품명}_${item.규격}`;
+                                                        return selectedItems.has(key);
+                                                      })} user={user} path={pathP}/>)
+        console.log(res.data.data.path)
+      }
       console.log("제출 응답", res)
     } catch (error) {
       console.error("결제 오류", error);
@@ -109,9 +124,10 @@ export default function Payment({
 
         {/* 품목 리스트 */}
         <div className="flex flex-col space-y-2 sm:space-y-3 text-gray-800 text-sm sm:text-base mb-8">
-          {sorteditems.map((item: any) => {
-            const furniture = item.furnitureList[0];
-            const itemKey = `${item.index}_${furniture.품명}_${furniture.규격}`;
+          {sorteditems.map((i) => i.furnitureList[0]).map((item: any) => {
+            const itemKey = `${item.id+ String(uuidv4())}_${item.품명}_${item.규격}`;
+            console.log(item)
+            console.log(itemKey)
             const isSelected = selectedItems.has(itemKey);
 
             return (
@@ -127,10 +143,10 @@ export default function Payment({
                 `}
                 type="button"
               >
-                <span className="mr-2 text-gray-400">{furniture.연번}.</span>
-                <span>{furniture.품명}</span>
-                <span className="ml-1 text-gray-500">({furniture.규격})</span>
-                <span className="float-right font-mono">{furniture.수수료}원</span>
+                <span className="mr-2 text-gray-400">{item.연번}.</span>
+                <span>{item.품명}</span>
+                <span className="ml-1 text-gray-500">({item.규격})</span>
+                <span className="float-right font-mono">{item.수수료}원</span>
               </button>
             );
           })}
@@ -147,6 +163,7 @@ export default function Payment({
           <Button01 caption="결제" bg_color="blue" onClick={handlePaymentClick} />
           <Button01 caption="닫기" bg_color="orange" onClick={onclose} />
         </div>
+        {orderP}
       </div>
     </div>
   );

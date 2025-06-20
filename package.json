@@ -26,7 +26,9 @@
     "react-quill": "^2.0.0",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.3",
-    "tailwindcss-animated": "^2.0.0"
+    "tailwindcss-animated": "^2.0.0",
+    "uuid": "^11.1.0",
+    "uuid4": "^2.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
