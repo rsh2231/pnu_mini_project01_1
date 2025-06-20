@@ -99,9 +99,9 @@ async function loadItem() {
       const paymentId = randomId();
       const payment = await PortOne.requestPayment({
         //상점아이디
-        storeId: "store-5f545aa8-a653-40a2-81f5-10a666a8dd1a", 
+        storeId: process.env.NEXT_PUBLIC_STORE_ID!, 
         //채널키
-        channelKey: "channel-key-19f45fcc-482d-4f03-a426-c0736a9e3553", 
+        channelKey: process.env.NEXT_PUBLIC_CHANNEL_KEY, 
         //고객사 주문 고유번호
         //토스, 카페등
         paymentId,
