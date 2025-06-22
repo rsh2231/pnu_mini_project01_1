@@ -1,146 +1,134 @@
 "use client";
 
-import { useFetchUser } from "@/hooks/useFetchUser";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useFetchUser } from "@/hooks/useFetchUser";
 
-const formatDateTime = (datetime: string) =>
-  new Date(datetime).toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-export default function HistoryPage() {
-  const { user, loading: userLoading } = useFetchUser();
-  const [orders, setOrders] = useState<OrderDto[]>([]);
-  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
-  const [orderDetail, setOrderDetail] = useState<OrderResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const springurl = process.env.NEXT_PUBLIC_SPRING_API || "";
-  const token = typeof window !== "undefined" ? sessionStorage.getItem("jwtToken") : "";
+export default function MyOrderHistoryPage() {
+  const { user, loading } = useFetchUser();
+  const [orders, setOrders] = useState<any[]>([]);
+  const [openOrderId, setOpenOrderId] = useState<string | null>(null);
+  const [orderDetails, setOrderDetails] = useState<Record<string, any>>({});
+  const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
   useEffect(() => {
-    if (!user || !token) return;
+    if (user) {
+      axios
+        .get(`${springurl}/api/order/reads`)
+        .then((res) => {
+          const fetched = res.data?.content?.orders || [];
+          setOrders(fetched);
+        })
+        .catch((err) => console.error("신청 내역 불러오기 실패", err));
+    }
+  }, [user]);
 
-    setLoading(true);
-    setError(null);
-
-    axios
-      .get(`${springurl}/api/order/reads`, {
-        headers: { Authorization: token },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const orderList: OrderDto[] = res.data?.content?.orders || [];
-        setOrders(orderList);
-        if (orderList.length > 0) {
-          setSelectedOrderId(String(orderList[0].orderId));
-        }
-      })
-      .catch(() => setError("신청 내역을 불러오는 데 실패했습니다."))
-      .finally(() => setLoading(false));
-  }, [user, token]);
-
-  useEffect(() => {
-    if (!selectedOrderId || !token) {
-      setOrderDetail(null);
+  const toggleDetail = async (orderId: string) => {
+    if (openOrderId === orderId) {
+      setOpenOrderId(null);
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    if (!orderDetails[orderId]) {
+      try {
+        const res = await axios.get(`${springurl}/api/order/detail`, {
+          params: { orderId },
+        });
+        const detail = res.data?.content?.orderResponse;
+        setOrderDetails((prev) => ({ ...prev, [orderId]: detail }));
+      } catch (err) {
+        console.error("상세 내역 불러오기 실패", err);
+      }
+    }
 
-    axios
-      .get(`${springurl}/api/order/detail`, {
-        params: { orderId: selectedOrderId },
-        headers: { Authorization: token },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const detail: OrderResponse = res.data?.content || null;
-        setOrderDetail(detail);
-      })
-      .catch(() => {
-        setOrderDetail(null);
-        setError("상세 내역을 불러오는 데 실패했습니다.");
-      })
-      .finally(() => setLoading(false));
-  }, [selectedOrderId, token]);
+    setOpenOrderId(orderId);
+  };
 
-  if (userLoading || loading)
-    return <p className="text-center text-gray-600 mt-20 text-lg">불러오는 중...</p>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-300 font-bold">로딩중... ⏳</p>
+      </div>
+    );
 
-  if (error)
-    return <p className="text-center text-red-500 mt-20 text-lg">{error}</p>;
+  if (!user)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl text-gray-300 font-bold">
+          로그인 후 이용 가능합니다.
+        </p>
+      </div>
+    );
 
   return (
-    <div className="max-w-5xl mx-auto p-4 space-y-8">
-      <h1 className="text-2xl font-bold text-gray-800">📦 신청 내역</h1>
+    <div className="space-y-6 p-4 sm:p-6">
+      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-cyan-300">
+        신청 내역
+      </h2>
 
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="space-y-3">
-          {orders.length === 0 && (
-            <p className="text-center text-gray-500">신청 내역이 없습니다.</p>
-          )}
+      {orders.length === 0 ? (
+        <p className="text-gray-400 text-sm sm:text-base">신청 내역이 없습니다.</p>
+      ) : (
+        <ul className="space-y-4">
           {orders.map((order) => (
-            <button
+            <li
               key={order.orderId}
-              className={`w-full text-left border p-3 rounded-md ${
-                selectedOrderId === String(order.orderId)
-                  ? "bg-blue-50 border-blue-400"
-                  : "bg-white hover:bg-gray-50"
-              }`}
-              onClick={() => setSelectedOrderId(String(order.orderId))}
+              className="bg-[#334155]/60 border border-blue-900 rounded-xl p-4 sm:p-5"
             >
-              <p className="font-medium text-gray-800">{order.username}</p>
-              <p className="text-sm text-gray-500">{formatDateTime(order.createdAt)}</p>
-              <p className="text-sm text-gray-700">{order.totalPrice.toLocaleString()}원</p>
-            </button>
-          ))}
-        </div>
+              <button
+                className="w-full text-left flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-0"
+                onClick={() => toggleDetail(order.orderId)}
+              >
+                <span className="text-sm sm:text-base">
+                  <span className="font-semibold text-cyan-200">주문번호:</span>{" "}
+                  {order.orderId}
+                </span>
+                <span className="text-xs sm:text-sm text-gray-400">
+                  {new Date(order.createdAt).toLocaleDateString()}
+                </span>
+              </button>
 
-        <div className="md:col-span-2 bg-white border p-5 rounded-lg space-y-4 shadow">
-          {orderDetail ? (
-            <>
-              <div className="space-y-1">
-                <p><span className="font-medium">신청자:</span> {orderDetail.order.username}</p>
-                <p><span className="font-medium">신청일:</span> {formatDateTime(orderDetail.order.createdAt)}</p>
-                <p><span className="font-medium">총 금액:</span> {orderDetail.order.totalPrice.toLocaleString()}원</p>
-              </div>
+              {openOrderId === order.orderId &&
+                orderDetails[order.orderId] && (
+                  <div className="mt-4 border-t border-gray-700 pt-4 space-y-4 text-sm text-gray-200">
 
-              {orderDetail.filePath && (
-                <div>
-                  <p className="font-medium text-gray-700 mb-1">첨부 이미지:</p>
-                  <img src={orderDetail.filePath} alt="첨부파일" className="max-w-full h-auto border rounded shadow" />
-                </div>
-              )}
+                    {/* 이미지 */}
+                    {orderDetails[order.orderId].filePath && (
+                      <div className="w-full flex justify-center">
+                        <img
+                          src={`${springurl}${orderDetails[order.orderId].filePath}`}
+                          alt="신청 이미지"
+                          className="max-w-full sm:max-w-xs rounded-lg border border-gray-700"
+                        />
+                      </div>
+                    )}
 
-              <div>
-                <p className="font-semibold text-gray-800 mb-2">📝 품목 목록</p>
-                {orderDetail.orderItems.length > 0 ? (
-                  <ul className="grid gap-3 sm:grid-cols-2">
-                    {orderDetail.orderItems.map((item, i) => (
-                      <li key={i} className="p-3 border rounded-md bg-gray-50">
-                        <p className="font-medium">{item.itemName}</p>
-                        <p className="text-sm text-gray-600">{item.itemPrice.toLocaleString()}원</p>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-sm text-gray-500">등록된 품목이 없습니다.</p>
+                    {/* 항목 리스트 */}
+                    <div className="space-y-2">
+                      {orderDetails[order.orderId].orderItems?.map(
+                        (item: any, index: number) => (
+                          <div
+                            key={index}
+                            className="flex justify-between text-sm sm:text-base"
+                          >
+                            <span>{item.itemName}</span>
+                            <span>{item.itemPrice.toLocaleString()}원</span>
+                          </div>
+                        )
+                      )}
+                    </div>
+
+                    {/* 총합 */}
+                    <div className="text-right font-semibold text-cyan-300">
+                      총합:{" "}
+                      {orderDetails[order.orderId].order.totalPrice.toLocaleString()}원
+                    </div>
+                  </div>
                 )}
-              </div>
-            </>
-          ) : (
-            <p className="text-center text-gray-500">주문을 선택해주세요.</p>
-          )}
-        </div>
-      </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

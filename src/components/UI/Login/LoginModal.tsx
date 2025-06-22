@@ -34,7 +34,7 @@ export default function LoginModal({ onclose }: { onclose: () => void }) {
           {formType === "login" ? (
             <DefalutLogin onclose={onclose} />
           ) : (
-            <Resister onclose={onclose} />
+            <Resister onclose={onclose}/>
           )}
         </div>
 

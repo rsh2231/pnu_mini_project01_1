@@ -28,13 +28,13 @@ export default function MyPageLayout({
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0f172a] via-[#1e293b] to-[#1e3a8a] text-white font-sans">
-      <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-[200px_1fr] min-h-screen">
+      <div className="max-w-screen-xl mx-auto flex flex-col md:grid md:grid-cols-[200px_1fr] min-h-screen">
         {/* 사이드바 */}
-        <aside className="bg-[#0f172a]/70 border-r border-blue-900 p-4 md:py-10 backdrop-blur-md">
-          <h2 className="text-lg md:text-xl font-bold text-cyan-300 mb-6">
+        <aside className="bg-[#0f172a]/70 border-b md:border-b-0 md:border-r border-blue-900 px-4 py-4 md:py-10 backdrop-blur-md">
+          <h2 className="text-lg sm:text-xl font-bold text-cyan-300 mb-4 md:mb-6">
             마이페이지
           </h2>
-          <nav className="flex md:flex-col gap-2 md:gap-4 text-sm md:text-base">
+          <nav className="flex overflow-x-auto md:flex-col gap-2 md:gap-4 text-sm sm:text-base whitespace-nowrap">
             <MypageLink
               href="/mypage/profile"
               current={pathname === "/mypage/profile"}
@@ -57,7 +57,7 @@ export default function MyPageLayout({
         </aside>
 
         {/* 본문 */}
-        <main className="p-4 md:p-8 bg-[#1e293b]/60 backdrop-blur-lg">
+        <main className="p-4 sm:p-6 md:p-8 bg-[#1e293b]/60 backdrop-blur-lg w-full">
           {children}
         </main>
       </div>

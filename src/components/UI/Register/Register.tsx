@@ -154,7 +154,7 @@ export default function Register({ onclose }: { onclose: () => void }) {
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md mx-auto px-4 py-6 sm:p-6 bg-white/70 rounded-xl shadow-md border border-teal-200 backdrop-blur-sm flex flex-col gap-5"
+        className="w-full max-w-md mx-auto px-4 py-6 sm:p-6 bg-white/70 rounded-xl shadow-md border border-teal-200 backdrop-blur-sm flex flex-col gap-5 mb-5"
       >
         <InputField
           name="username"
