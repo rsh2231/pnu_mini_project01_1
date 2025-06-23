@@ -88,10 +88,7 @@ export default function MyOrderHistoryPage() {
   const getSummaryItemName = (items: any[]) => {
     if (!items || items.length === 0) return "품목 없음";
 
-    const firstName = items[0].itemName;
-    const restCount = items.length - 1;
-
-    return restCount > 0 ? `${firstName} 외 ${restCount}건` : firstName;
+    return items;
   };
 
   return (
@@ -119,15 +116,14 @@ export default function MyOrderHistoryPage() {
                   className="w-full p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-left"
                 >
                   <div>
+                    {console.log(order.itemPrice)}
                     <p className="font-semibold text-cyan-200 text-sm sm:text-base">
-                      {orderDetails[order.orderId]?.orderItems
-                        ? getSummaryItemName(
-                            orderDetails[order.orderId].orderItems
-                          )
-                        : "품목 불러오는 중..."}
+                      {order.itemPrice
+                        ? Object.entries(order.itemPrice)[0]?.[0]  +(Object.entries(order.itemPrice).length > 1 ? '외 ' +String(Object.entries(order.itemPrice).length - 1) + '건' : "")
+                        : "📦 품목 불러오기"}
                     </p>
                     <p className="text-gray-400 text-xs sm:text-sm mt-1">
-                      {new Date(order.createdAt).toLocaleDateString()}
+                      {new Date(order.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <span className="text-cyan-400 text-xs sm:text-sm mt-1 sm:mt-0">

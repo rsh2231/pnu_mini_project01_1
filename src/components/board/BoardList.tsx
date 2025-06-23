@@ -185,7 +185,7 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
               <p className="text-sm text-slate-400 flex items-center gap-2">
                 ✍️ {post.writer}
                 <span className="text-slate-600">•</span>
-                🗓 {new Date(post.createDate).toLocaleDateString()}
+                🗓 {new Date(post.createDate).toLocaleString()}
               </p>
               <div
                 className="mt-3 text-slate-300 line-clamp-3 text-sm"

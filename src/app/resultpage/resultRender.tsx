@@ -67,19 +67,14 @@ export default function ResultRender({
     );
   };
 
-const [w, h] = result.viewSize;
+  const [w, h] = result.viewSize;
 
-return (
+  return (
     <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 max-w-[680px] mx-auto">
-      {/* ✅ 이미지 및 SVG 프리뷰 영역 (고정 크기 박스) */}
+      {/* ✅ 이미지 및 SVG 프리뷰 영역 (반응형으로 개선) */}
       <div
-        className="relative w-full max-w-full"
-        style={{
-          width: `${w}px`,
-          height: `${h}px`,
-          maxWidth: "100%",
-          maxHeight: "80vh",
-        }}
+        className="relative w-full"
+        style={{ aspectRatio: `${w} / ${h}`, maxHeight: "80vh" }}
       >
         {/* ❗ 절대 수정 금지 영역 시작 */}
         <div className="relative w-full h-full">
@@ -115,9 +110,7 @@ return (
         {selectedIdx.map((i) => (
           <span
             key={i}
-            className={`${
-              glass_button_variants.blue
-            } inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
+            className={`${glass_button_variants.blue} inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
             title={result.names[i]}
           >
             {result.names[i]}
