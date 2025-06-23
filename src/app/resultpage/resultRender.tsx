@@ -67,49 +67,14 @@ export default function ResultRender({
     );
   };
 
-  //     return (
-  //         <div >
-  //             {/* w에 절대 max주면 안됨!!!!! */}
-  //             {/* svg에 w fit 절대 금지 */}
-  //             <div className="relative ">
-  //                 <img
-  //                 src={result.image_base64}
-  //                 alt="result"
-  //                 className="w-full h-auto border pointer-events-none"
-  //                 onLoad={handleonLoad}
-  //                 />
-  //                 <svg
-  //                     viewBox={`0 0 ${result.viewSize[0]} ${result.viewSize[1]}`}
-  //                     className="absolute top-0 left-0 w-full h-full"
-  //                     preserveAspectRatio="xMidYMid meet"
-  //                 >
-  //                     <Polybutton names={result.names} poly={result.poly} jobid={jobid} setSelectedIdx={setSelectedIdx} selectedIdx={selectedIdx} />
-  //                 </svg>
-  //             </div>
-  //             <div className="text-center">이미지 사이즈 : {imwidth},{imheight} </div>
-  //             <div className='flex flex-row justify-center items-center mt-2'>
-  //                 현재 선택:{selectedIdx.map(i=><span key={i} className={`${productselected} flex flex-row gap-2  items-center m-2 w-fit`} >{result.names[i]}</span>)}
-  //             </div>
-  //             {/* <ImgSelectButton permitRequest={selectedIdx} result={result} jobid={jobid} selectedname={selectedname}/> */}
-  //             <ImgSelectButton permitRequest={{selectedIdx,selectedname,jobid}} setSelectedIdx={setSelectedIdx}/>
-  //             <Link href='/' className={glass_button_variants.blue}>메인페이지</Link>
-  //         </div>
-  //     );
-  // }
+  const [w, h] = result.viewSize;
 
-const [w, h] = result.viewSize;
-
-return (
+  return (
     <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8 max-w-[680px] mx-auto">
-      {/* ✅ 이미지 및 SVG 프리뷰 영역 (고정 크기 박스) */}
+      {/* ✅ 이미지 및 SVG 프리뷰 영역 (반응형으로 개선) */}
       <div
-        className="relative w-full max-w-full"
-        style={{
-          width: `${w}px`,
-          height: `${h}px`,
-          maxWidth: "100%",
-          maxHeight: "80vh",
-        }}
+        className="relative w-full"
+        style={{ aspectRatio: `${w} / ${h}`, maxHeight: "80vh" }}
       >
         {/* ❗ 절대 수정 금지 영역 시작 */}
         <div className="relative w-full h-full">
@@ -145,9 +110,13 @@ return (
         {selectedIdx.map((i) => (
           <span
             key={i}
+<<<<<<< HEAD
             className={`${
               glass_button_variants.blue
             } inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
+=======
+            className={`${glass_button_variants.blue} inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
+>>>>>>> master
             title={result.names[i]}
           >
             {result.names[i]}

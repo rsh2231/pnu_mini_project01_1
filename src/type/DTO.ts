@@ -27,7 +27,10 @@ interface ImagePermitRequestDTO{
     jobid:string;
     selectedIdx:number[]
     selectedname:string[]
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 }
 
 interface SortItem {
@@ -56,4 +59,24 @@ interface OrderResponse {
   filePath: string;
   order: OrderDto;
   orderItems?: OrderItemDto[];
+<<<<<<< HEAD
 }
+=======
+}
+
+type sqldata = {
+	furnitureList:object;
+	index:number;
+}
+
+type SortedItem = {
+    furnitureList: { 
+        id: number,
+        index:number,
+        연번:string,
+        품명:string,
+        규격:string,
+        수수료:string
+    }; 
+};
+>>>>>>> master

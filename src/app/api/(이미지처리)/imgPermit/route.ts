@@ -8,8 +8,9 @@ export async function POST(req:NextRequest) {
     // const { jobid, selectedIdx,selectedname } = await req.json();
     const body = await req.json()
     const { jobid, selectedIdx, selectedname } = body || {};
-    console.log("바디",body)
-    console.log('req.json 값 =>', { jobid, selectedIdx , selectedname})
+
+    console.log("api/imgPermit 의 바디",body)
+    console.log('api/imgPermit 의 req.json 값 =>', { jobid, selectedIdx , selectedname})
     if (!jobid ) {
         return NextResponse.json({ error: "잘못된 요청 데이터" }, { status: 400 });
     }

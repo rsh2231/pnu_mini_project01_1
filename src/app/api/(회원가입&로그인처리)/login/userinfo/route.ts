@@ -2,7 +2,11 @@ import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
+<<<<<<< HEAD
     const sptingurl = process.env.NEXT_PUBLIC_SPRING_API;
+=======
+    const sptingurl = process.env.SPRING_API;
+>>>>>>> master
     const logname = "넥스트 서버 | api log | login/userinfo : "
     //jwtToken 가져오기 
     const token = req.headers.get('authorization') || "";
