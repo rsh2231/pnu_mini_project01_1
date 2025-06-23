@@ -76,63 +76,6 @@ export default function MyOrderHistoryPage() {
     setOpenOrderId(orderId);
   };
 
-<<<<<<< HEAD
-  if (loading)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl text-gray-300 font-bold">로딩중... ⏳</p>
-      </div>
-    );
-
-  if (!user)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl text-gray-300 font-bold">
-          로그인 후 이용 가능합니다.
-        </p>
-      </div>
-    );
-
-  return (
-    <div className="space-y-6 p-4 sm:p-6">
-      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-cyan-300">
-        신청 내역
-      </h2>
-
-      {orders.length === 0 ? (
-        <p className="text-gray-400 text-sm sm:text-base">신청 내역이 없습니다.</p>
-      ) : (
-        <ul className="space-y-4">
-          {orders.map((order) => (
-            <li
-              key={order.orderId}
-              className="bg-[#334155]/60 border border-blue-900 rounded-xl p-4 sm:p-5"
-            >
-              <button
-                className="w-full text-left flex flex-col sm:flex-row justify-between sm:items-center gap-2 sm:gap-0"
-                onClick={() => toggleDetail(order.orderId)}
-              >
-                <span className="text-sm sm:text-base">
-                  <span className="font-semibold text-cyan-200">주문번호:</span>{" "}
-                  {order.orderId}
-                </span>
-                <span className="text-xs sm:text-sm text-gray-400">
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </span>
-              </button>
-
-              {openOrderId === order.orderId &&
-                orderDetails[order.orderId] && (
-                  <div className="mt-4 border-t border-gray-700 pt-4 space-y-4 text-sm text-gray-200">
-
-                    {/* 이미지 */}
-                    {orderDetails[order.orderId].filePath && (
-                      <div className="w-full flex justify-center">
-                        <img
-                          src={`${springurl}${orderDetails[order.orderId].filePath}`}
-                          alt="신청 이미지"
-                          className="max-w-full sm:max-w-xs rounded-lg border border-gray-700"
-=======
   if (loading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen text-lg sm:text-xl text-gray-300 font-semibold">
@@ -146,6 +89,11 @@ export default function MyOrderHistoryPage() {
     if (!items || items.length === 0) return "품목 없음";
 
     return items;
+  };
+
+  // 품목명 앞 숫자 제거 함수
+  const removePrefix = (name: string = "") => {
+    return name.replace(/^\d+_/, ""); // 숫자+_ 제거
   };
 
   return (
@@ -173,10 +121,17 @@ export default function MyOrderHistoryPage() {
                   className="w-full p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-left"
                 >
                   <div>
-                    {console.log(order.itemPrice)}
                     <p className="font-semibold text-cyan-200 text-sm sm:text-base">
+                      {index + 1}.{" "}
                       {order.itemPrice
-                        ? Object.entries(order.itemPrice)[0]?.[0]  +(Object.entries(order.itemPrice).length > 1 ? '외 ' +String(Object.entries(order.itemPrice).length - 1) + '건' : "")
+                        ? (() => {
+                            const entries = Object.entries(order.itemPrice);
+                            const firstItem = removePrefix(entries[0]?.[0]);
+                            const itemCount = entries.length;
+                            return itemCount === 1
+                              ? firstItem
+                              : `${firstItem} 외 ${itemCount - 1}건`;
+                          })()
                         : "📦 품목 불러오기"}
                     </p>
                     <p className="text-gray-400 text-xs sm:text-sm mt-1">
@@ -197,37 +152,12 @@ export default function MyOrderHistoryPage() {
                           src={`data:image/jpeg;base64,${imageBase64}`}
                           alt="신청 이미지"
                           className="w-full h-auto object-cover"
->>>>>>> master
                         />
                       </div>
                     )}
 
                     {/* 항목 리스트 */}
                     <div className="space-y-2">
-<<<<<<< HEAD
-                      {orderDetails[order.orderId].orderItems?.map(
-                        (item: any, index: number) => (
-                          <div
-                            key={index}
-                            className="flex justify-between text-sm sm:text-base"
-                          >
-                            <span>{item.itemName}</span>
-                            <span>{item.itemPrice.toLocaleString()}원</span>
-                          </div>
-                        )
-                      )}
-                    </div>
-
-                    {/* 총합 */}
-                    <div className="text-right font-semibold text-cyan-300">
-                      총합:{" "}
-                      {orderDetails[order.orderId].order.totalPrice.toLocaleString()}원
-                    </div>
-                  </div>
-                )}
-            </li>
-          ))}
-=======
                       {detail.orderItems?.map((item: any, idx: number) => (
                         <div
                           key={idx}
@@ -256,7 +186,6 @@ export default function MyOrderHistoryPage() {
               </li>
             );
           })}
->>>>>>> master
         </ul>
       )}
     </div>

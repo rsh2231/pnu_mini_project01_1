@@ -37,11 +37,7 @@ export default function MyPageHome() {
           setError("게시글 수를 불러오는데 실패했습니다.");
         });
 
-<<<<<<< HEAD
-      axios.get(`${springurl}/api/order/reads`)
-=======
       axios.get(`${springurl}/api/order/reads`, {headers : {Authorization : token}})
->>>>>>> master
         .then((res) => {
           const orders = res.data?.content?.orders;
           if (Array.isArray(orders)) {

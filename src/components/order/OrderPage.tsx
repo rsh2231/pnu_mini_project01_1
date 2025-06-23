@@ -373,9 +373,7 @@ export default function OrderPage({selectedItems, user, confirm}:OrderPageProps)
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setPaymentStatus({ status: "PENDING" });
-		const redirectUrl = host.includes("kdtminiproject.myvnc.com")
-			? "http://kdtminiproject.myvnc.com:3000"
-			: "http://localhost:3000";
+    const redirectUrl = `http://${host}:3000`;
 
 		console.log(redirectUrl)
 		try {

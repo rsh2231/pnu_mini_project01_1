@@ -110,13 +110,7 @@ export default function ResultRender({
         {selectedIdx.map((i) => (
           <span
             key={i}
-<<<<<<< HEAD
-            className={`${
-              glass_button_variants.blue
-            } inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
-=======
             className={`${glass_button_variants.blue} inline-flex items-center justify-center px-3 py-1 text-xs sm:text-sm text-center truncate max-w-[150px]`}
->>>>>>> master
             title={result.names[i]}
           >
             {result.names[i]}
