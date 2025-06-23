@@ -48,7 +48,7 @@ export default function SocialLogin() {
                     className="hover:scale-105 hover:cursor-pointer transition"
                     />
             </button>
-            <button onClick={()=>handleClick('kakaotalk')}>
+            <button onClick={()=>handleClick('kakao')}>
                 <Image 
                     src='/icons/icons8-kakaotalk-48.png'
                     alt="google icon"
