@@ -29,9 +29,12 @@ export default function MyPageLayout({
       <div className="max-w-screen-xl mx-auto flex flex-col md:grid md:grid-cols-[200px_1fr] min-h-screen">
         {/* 사이드바 */}
         <aside className="bg-[#0f172a]/70 border-b md:border-b-0 md:border-r border-blue-900 px-4 py-4 md:py-10 backdrop-blur-md">
-          <h2 className="text-lg sm:text-xl font-bold text-cyan-300 mb-4 md:mb-6">
+          <Link
+            href="/mypage"
+            className="text-lg sm:text-xl font-bold text-cyan-300 mb-4 md:mb-6 hover:underline"
+          >
             마이페이지
-          </h2>
+          </Link>
           <nav className="flex overflow-x-auto md:flex-col gap-2 md:gap-4 text-sm sm:text-base whitespace-nowrap">
             <MypageLink
               href="/mypage/profile"
