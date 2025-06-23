@@ -10,6 +10,7 @@ export default function MyOrderHistoryPage() {
   const [openOrderId, setOpenOrderId] = useState<string | null>(null);
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>({});
   const [imageDataMap, setImageDataMap] = useState<Record<string, string>>({});
+  
   const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function MyOrderHistoryPage() {
       ) : (
         <ul className="space-y-4">
           {orders.map((order, index) => {
+            console.log("order.itemPrice:", order.itemPrice); // 여기에 추가
             const isOpen = openOrderId === order.orderId;
             const detail = orderDetails[order.orderId];
             const imageBase64 = imageDataMap[order.orderId];

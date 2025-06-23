@@ -27,7 +27,7 @@ function useDebounce<T>(value: T, delay: number): T {
 const POSTS_PER_PAGE = 10;
 
 interface BoardListProps {
-  fixedWriter?: string; // 마이페이지에서 고정된 작성자 필터용 prop
+  fixedWriter?: string;
 }
 
 const BoardList = ({ fixedWriter }: BoardListProps) => {
@@ -38,8 +38,7 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const [selectedWriter, setSelectedWriter] = useState("");
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption, setSortOption] = useState("latest");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
 
@@ -47,12 +46,7 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
   const springurl = process.env.NEXT_PUBLIC_SPRING_API;
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
-  // fixedWriter가 있으면 selectedWriter 고정
-  useEffect(() => {
-    if (fixedWriter) {
-      setSelectedWriter(fixedWriter);
-    }
-  }, [fixedWriter]);
+  const writerParam = fixedWriter ?? "";
 
   const fetchPosts = useCallback(async () => {
     setLoading(true);
@@ -64,7 +58,7 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
       params.append("size", POSTS_PER_PAGE.toString());
       params.append("method", sortOption);
       params.append("q", debouncedSearchTerm);
-      params.append("writer", selectedWriter);
+      params.append("writer", writerParam);
 
       const url = `${springurl}/api/posts?${params.toString()}`;
       const res = await fetch(url);
@@ -81,14 +75,8 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
         createDate: item.createdAt,
       }));
 
-      const filteredPosts = fixedWriter
-        ? mappedPosts.filter((p) => p.writer === fixedWriter)
-        : mappedPosts;
-
       setPosts(mappedPosts);
-      setTotalPosts(
-        data.content.dashResponseDto?.totalElements || mappedPosts.length
-      );
+      setTotalPosts(data.content.dashResponseDto?.totalElements || mappedPosts.length);
     } catch (err: any) {
       setError(err.message || "오류가 발생했습니다.");
       setPosts([]);
@@ -96,12 +84,11 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
     } finally {
       setLoading(false);
     }
-  }, [springurl, currentPage, sortOption, debouncedSearchTerm, selectedWriter, fixedWriter]);
+  }, [springurl, currentPage, sortOption, debouncedSearchTerm, writerParam]);
 
-  // 검색어, 필터, 정렬 바뀌면 페이지 초기화
   useEffect(() => {
     setCurrentPage(1);
-  }, [debouncedSearchTerm, selectedWriter, sortOption]);
+  }, [debouncedSearchTerm, sortOption, writerParam]);
 
   useEffect(() => {
     fetchPosts();
@@ -110,8 +97,6 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
   const handleWriteClick = () => router.push("/dashboard/write");
   const handlePostClick = (id: number) => router.push(`/dashboard/${id}`);
 
-  // 전체 작성자 목록 (전체 글 중에서만 추출) 
-  // fixedWriter 있을 때는 필요 없으므로 빈 배열로 처리
   const uniqueWriters = fixedWriter
     ? []
     : Array.from(new Set(posts.map((p) => p.writer)));
@@ -134,15 +119,14 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
           onChange={(e) => setSearchTerm(e.target.value)}
           disabled={!!fixedWriter}
           value={searchTerm}
-          className={`w-full sm:flex-grow px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:outline-none shadow-inner transition-all ${fixedWriter ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+          className={`w-full sm:flex-grow px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-sky-500 focus:outline-none shadow-inner transition-all ${
+            fixedWriter ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         />
 
-        {/* 작성자 필터는 fixedWriter가 없을 때만 표시 */}
         {!fixedWriter && (
           <select
-            value={selectedWriter}
-            onChange={(e) => setSelectedWriter(e.target.value)}
+            onChange={(e) => router.push(`/mypage/posts?writer=${e.target.value}`)}
             className="w-full sm:w-auto px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 focus:ring-2 focus:ring-sky-500"
           >
             <option value="">전체 작성자</option>
@@ -192,7 +176,6 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             </div>
-
           ))}
         </div>
       )}
@@ -204,10 +187,11 @@ const BoardList = ({ fixedWriter }: BoardListProps) => {
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border font-semibold transition-all duration-200 text-sm ${currentPage === i + 1
+              className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border font-semibold transition-all duration-200 text-sm ${
+                currentPage === i + 1
                   ? "bg-sky-600 text-white border-sky-600 shadow-md"
                   : "bg-slate-700 text-slate-300 border-slate-600 hover:bg-slate-600"
-                }`}
+              }`}
             >
               {i + 1}
             </button>

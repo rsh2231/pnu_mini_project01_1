@@ -6,7 +6,7 @@ import { useFetchUser } from "@/hooks/useFetchUser";
 import Button01 from "@/components/etc/Button01";
 import { toast } from "react-toastify";
 
-const springurl = process.env.SPRING_API;
+const springurl = process.env.NEXT_PUBLIC_SPRING_API;
 
 export default function EditPostPage() {
   const { id } = useParams();
@@ -18,23 +18,36 @@ export default function EditPostPage() {
   const { user, loading: loadingUser } = useFetchUser();
 
   useEffect(() => {
-    if (!id) return;
-    const fetchPost = async () => {
-      try {
-        const res = await fetch(`${springurl}/api/post/${id}`);
-        const data = await res.json();
-        const ds = data.content.dsboard;
-        setTitle(ds.title);
-        setContent(ds.content);
-        if (contentRef.current) {
-          contentRef.current.innerHTML = ds.content;
-        }
-      } catch (e) {
-        toast.error("게시글 불러오기 실패");
+  if (!id || loadingUser) return;
+
+  const fetchPost = async () => {
+    try {
+      const res = await fetch(`${springurl}/api/post/${id}`);
+      const data = await res.json();
+      const ds = data.content.dashboard;
+
+      // 작성자 확인 로직 추가
+      if (user && user.nickname !== ds.nickname) {
+        toast.error("작성자만 수정할 수 있습니다.");
+        router.replace(`/dashboard/${id}`); // 수정 페이지 접근 차단
+        return;
       }
-    };
+
+      setTitle(ds.title);
+      setContent(ds.content);
+      if (contentRef.current) {
+        contentRef.current.innerHTML = ds.content;
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("게시글 불러오기 실패");
+    }
+  };
+
+  if (user) {
     fetchPost();
-  }, [id]);
+  }
+}, [id, user, loadingUser]);
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     setContent(e.currentTarget.innerHTML);
