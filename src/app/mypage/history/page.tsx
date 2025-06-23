@@ -99,9 +99,9 @@ export default function MyOrderHistoryPage() {
 
   return (
     <div className="px-4 py-6 max-w-screen-md mx-auto space-y-6">
-      <h2 className="text-xl sm:text-2xl font-bold text-cyan-300">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-8 border-b border-blue-900 pb-3">
         📦 신청 내역
-      </h2>
+      </h1>
 
       {orders.length === 0 ? (
         <p className="text-gray-400 text-sm">신청 내역이 없습니다.</p>
