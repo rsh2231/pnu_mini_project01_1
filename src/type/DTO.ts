@@ -22,15 +22,10 @@ interface ImageProcessResultDTO {
     type:string[];
     viewSize:string[];
 }
-
 interface ImagePermitRequestDTO{
     jobid:string;
     selectedIdx:number[]
     selectedname:string[]
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 }
 
 interface SortItem {
@@ -59,16 +54,11 @@ interface OrderResponse {
   filePath: string;
   order: OrderDto;
   orderItems?: OrderItemDto[];
-<<<<<<< HEAD
 }
-=======
-}
-
 type sqldata = {
 	furnitureList:object;
 	index:number;
 }
-
 type SortedItem = {
     furnitureList: { 
         id: number,
@@ -79,4 +69,3 @@ type SortedItem = {
         수수료:string
     }; 
 };
->>>>>>> master
