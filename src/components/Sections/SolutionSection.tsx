@@ -9,11 +9,11 @@ export default function SolutionSection() {
       <div className="max-w-screen-lg mx-auto">
         <div className="text-center mb-12">
           <h2 className="flex flex-col text-2xl md:text-4xl font-bold text-gray-900">
-            <span className="mb-2 ">Sortify</span>
+            <span className="mb-2 ">한컷클린</span>
             <span>스마트한 해결책</span>
           </h2>
           <p className="text-sm md:text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
-            복잡하고 번거로운 폐기물 처리 과정,<br /> WasteSort가 혁신합니다.
+            복잡하고 번거로운 폐기물 처리 과정,<br /> 한컷클린이 혁신합니다.
           </p>
         </div>
 

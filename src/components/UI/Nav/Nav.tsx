@@ -106,7 +106,7 @@ export default function Nav() {
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           {/* 로고 */}
           <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition hover:animate-fade">
-            <Link href="/">Sortify</Link>
+            <Link href="/">한컷클린</Link>
           </div>
 
           {/* 데스크탑 메뉴 */}
