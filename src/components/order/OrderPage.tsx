@@ -188,13 +188,23 @@ export default function OrderPage({selectedItems, user, confirm}:OrderPageProps)
       //결제 요청된 결과가 맞는지 확인
       const completeResponse = await fetch("/api/payment/complete", {
          method: "POST",
-         headers: { "Content-Type": "application/json" },
+         headers: { "Content-Type" : "application/json" },
          body: JSON.stringify({ paymentId: payment.paymentId ,orderId : item?.id}),
       });
-
-      if (completeResponse.ok) {
+      //결제완료 되었다면
+      if (completeResponse['status'] === 200) {
          const paymentComplete = await completeResponse.json();
          setPaymentStatus({ status: paymentComplete.status });
+         console.log(process.env.NEXT_PUBLIC_SPRING_API+ "/email/order?orderId=" + item?.id)
+         //이메일 발송
+         
+         const emailResp = await fetch(process.env.NEXT_PUBLIC_SPRING_API+ "/email/order?orderId=" + item?.id,{
+            method: 'GET',
+            headers:{
+               Authorization : sessionStorage.getItem('jwtToken') ?? "",
+            },
+         })
+         console.log(emailResp)
       } else {
          setPaymentStatus({
             status: "FAILED",
