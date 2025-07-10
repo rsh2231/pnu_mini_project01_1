@@ -226,7 +226,7 @@ return (
 			className="w-full h-full object-contain border rounded-lg"
             />
 		) : (
-            <div className="absolute inset-0 flex items-center justify-center border rounded-lg text-gray-400 text-sm text-center">
+            <div className="absolute inset-0 flex items-center justify-center border rounded-lg text-gray-400 text-sm text-center break-keep">
 			이미지를 선택하면 미리보기가 표시됩니다
             </div>
 		)}

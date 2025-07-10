@@ -8,7 +8,7 @@ import { useAtom } from "jotai";
 import { Logininfo } from "@/type/logininfo";
 import { isLoginAtom } from "@/atoms/IsLoginAtom";
 import axios from "axios";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function Nav() {
@@ -96,35 +96,132 @@ export default function Nav() {
     });
   };
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <>
-      <header className="bg-[#0f172a]/90 backdrop-blur-md text-white shadow-sm border-b border-blue-800 sticky top-0 z-50 overflow-visible">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-row sm:flex-row items-center justify-between gap-3 sm:gap-0">
-          {/* 왼쪽 로고 영역 */}
-          <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition">
+      <header className="bg-[#0f172a]/90 backdrop-blur-md text-white shadow-sm border-b border-blue-800 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          {/* 로고 */}
+          <div className="text-xl font-bold tracking-tight text-cyan-300 hover:text-cyan-400 transition hover:animate-fade">
             <Link href="/">Sortify</Link>
           </div>
 
-          {/* 가운데 네비게이션 */}
-          <nav className="flex flex-wrap gap-4 sm:gap-6 items-center text-sm sm:text-md font-medium justify-center">
-            <NavLink href="/">홈</NavLink>
-            <NavLink href="/waste-fees">대형폐기물</NavLink>
+          {/* 데스크탑 메뉴 */}
+          <div className="hidden sm:flex items-center gap-6">
+            <nav className="flex gap-6 items-center text-md font-medium">
+              <NavLink href="/waste-fees">대형폐기물</NavLink>
+              {loginstate.isLogin === "logged-in" ? (
+                <NavLink href="/dashboard">나눔게시판</NavLink>
+              ) : (
+                <button
+                  onClick={() => toast.info("로그인 후 이용 가능합니다.")}
+                  className="text-white/70 cursor-not-allowed"
+                >
+                  나눔게시판
+                </button>
+              )}
+            </nav>
+            <div className="flex gap-3 items-center">
+              {loginstate.isLogin === "logged-in" && (
+                <Link href="/mypage">
+                  <Button01 caption="마이페이지" bg_color="cyan" />
+                </Link>
+              )}
+              {loginstate.isLogin === "logged-in" ? (
+                <Button01
+                  caption="로그아웃"
+                  bg_color="orange"
+                  onClick={handleLogout}
+                />
+              ) : (
+                <Button01
+                  caption="로그인"
+                  bg_color="blue"
+                  onClick={() => setOpen(true)}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* 모바일 햄버거 버튼 */}
+          <div className="sm:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="text-white focus:outline-none"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 모바일 메뉴 오버레이 */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 sm:hidden"
+          onClick={closeMobileMenu}
+        ></div>
+      )}
+
+      {/* 모바일 메뉴 */}
+      <div
+        className={`fixed top-0 right-0 h-full w-64 bg-[#1e293b] shadow-lg z-50 transform transition-transform duration-300 ease-in-out sm:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-6 flex flex-col items-end">
+          <button onClick={closeMobileMenu} className="text-white mb-6">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <nav className="flex flex-col gap-4 items-end text-lg w-full">
+            <NavLink href="/waste-fees" onClick={closeMobileMenu}>대형폐기물</NavLink>
             {loginstate.isLogin === "logged-in" ? (
-              <NavLink href="/dashboard">나눔게시판</NavLink>
+              <NavLink href="/dashboard" onClick={closeMobileMenu}>나눔게시판</NavLink>
             ) : (
               <button
-                onClick={() => toast.info("로그인 후 이용 가능합니다.")}
-                className="text-white cursor-not-allowed"
+                onClick={() => {
+                  toast.info("로그인 후 이용 가능합니다.");
+                  closeMobileMenu();
+                }}
+                className="text-white/70 cursor-not-allowed"
               >
                 나눔게시판
               </button>
             )}
           </nav>
-
-          {/* 오른쪽 버튼 */}
-          <div className="flex flex-nowrap gap-2 sm:gap-3 items-center justify-center whitespace-nowrap">
+          <div className="flex flex-col items-end gap-4 mt-6 w-full">
             {loginstate.isLogin === "logged-in" && (
-              <Link href="/mypage">
+              <Link href="/mypage" onClick={closeMobileMenu}>
                 <Button01 caption="마이페이지" bg_color="cyan" />
               </Link>
             )}
@@ -132,20 +229,25 @@ export default function Nav() {
               <Button01
                 caption="로그아웃"
                 bg_color="orange"
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
               />
             ) : (
               <Button01
                 caption="로그인"
                 bg_color="blue"
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                  setOpen(true);
+                  closeMobileMenu();
+                }}
               />
             )}
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* 모달은 헤더 밖 최상위에 렌더링 */}
       {open && <LoginModal onclose={() => setOpen(false)} />}
     </>
   );
@@ -155,13 +257,16 @@ export default function Nav() {
 function NavLink({
   href,
   children,
+  onClick,
 }: {
   href: string;
   children: React.ReactNode;
+  onClick?: () => void;
 }) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className="relative text-white hover:text-cyan-300 transition duration-300 group"
     >
       {children}

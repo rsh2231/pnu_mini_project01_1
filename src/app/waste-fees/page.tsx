@@ -46,7 +46,7 @@ export default function WasteFeesClientPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">
           부산시 구·군 선택
         </h1>
-        <ul className="grid grid-cols-2 sm:grid-cols-7 gap-3 sm:gap-4">
+        <ul className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 sm:gap-4">
           {districts.map((name) => (
             <li key={name}>
               <button
@@ -54,11 +54,10 @@ export default function WasteFeesClientPage() {
                   setSelectedDistrict(name);
                   setSelectedItem(null); // 구/군 바꾸면 품목 초기화
                 }}
-                className={`w-full text-center px-3 py-2 sm:px-4 sm:py-3 rounded-lg font-medium border transition duration-200 text-sm sm:text-base cursor-pointer ${
-                  selectedDistrict === name
-                    ? "bg-blue-600 text-white border-blue-500"
-                    : "bg-[#334155] hover:bg-[#475569] text-blue-100 border-blue-800"
-                }`}
+                className={`w-full text-center px-3 py-2 sm:px-4 sm:py-3 rounded-lg font-medium border transition duration-200 text-sm sm:text-base cursor-pointer whitespace-nowrap ${selectedDistrict === name
+                  ? "bg-blue-600 text-white border-blue-500"
+                  : "bg-[#334155] hover:bg-[#475569] text-blue-100 border-blue-800"
+                  }`}
               >
                 {name}
               </button>

@@ -1,20 +1,26 @@
+import Lottie from "react-lottie-player";
+import AI from "@/assets/animations/AI.json";
+import Card from "@/assets/animations/card-payment.json";
+import HandsShake from "@/assets/animations/handshake.json";
+
 export default function SolutionSection() {
   return (
-    <section id="solution" className="bg-slate-100 px-6 py-10 md:p-40">
+    <section id="solution" className="bg-slate-100 px-6 py-10 md:p-40 break-keep">
       <div className="max-w-screen-lg mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-900">
-            Sortify 스마트한 해결책
+          <h2 className="flex flex-col text-2xl md:text-4xl font-bold text-gray-900">
+            <span className="mb-2 ">Sortify</span>
+            <span>스마트한 해결책</span>
           </h2>
           <p className="text-sm md:text-lg text-gray-600 mt-4 max-w-3xl mx-auto">
-            복잡하고 번거로운 폐기물 처리 과정, WasteSort가 혁신합니다.
+            복잡하고 번거로운 폐기물 처리 과정,<br /> WasteSort가 혁신합니다.
           </p>
         </div>
 
         <div className="grid gap-y-10 md:grid-cols-3 md:gap-8">
           {/* Feature 1 */}
           <div className="bg-white p-6 md:p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-            <div className="text-3xl md:text-4xl mb-4 ">🤖</div>
+            <div className="text-3xl md:text-4xl mb-4 "><Lottie loop play animationData={AI} className="w-10 h-10" /></div>
             <h3 className="text-xl md:text-2xl text-blue-600 font-bold mb-3">AI 기반 자동 분류</h3>
             <p className="text-gray-600 text-sm md:text-base">
               폐기물 사진 한 장이면 끝. 강력한 AI가 폐기물 종류를 정확하게
@@ -24,7 +30,7 @@ export default function SolutionSection() {
 
           {/* Feature 2 */}
           <div className="bg-white p-6 md:p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-            <div className="text-3xl md:text-4xl mb-4">💳</div>
+            <div className="text-3xl md:text-4xl mb-4"><Lottie play loop animationData={Card} className="w-10 h-10" /></div>
             <h3 className="text-xl md:text-2xl text-green-600 font-bold mb-3">간편 신고 및 결제</h3>
             <p className="text-gray-600 text-sm md:text-base">
               복잡한 행정 절차는 이제 그만. 분류된 폐기물 신고부터 수수료
@@ -34,7 +40,7 @@ export default function SolutionSection() {
 
           {/* Feature 3 */}
           <div className="bg-white p-6 md:p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-            <div className="text-3xl md:text-4xl mb-4 ">🤝</div>
+            <div className="text-3xl md:text-4xl mb-4 "><Lottie loop play animationData={HandsShake} className="w-12 h-12" /></div>
             <h3 className="text-xl md:text-2xl text-orange-500 font-bold mb-3">대형 폐기물 나눔</h3>
             <p className="text-gray-600 text-sm md:text-base">
               버리기엔 아깝다면? 나눔 게시판을 통해 필요한 이웃에게 대형 폐기물을
