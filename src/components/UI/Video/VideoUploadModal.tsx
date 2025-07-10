@@ -8,7 +8,7 @@ export default function VideoUploadModal({
   onClose,
 }: {
   onFileSelected: (file: File) => void;
-  onClose: () => void;
+  onClose: () => void
 }) {
   const [file, setFile] = useState<File | null>(null);
 
@@ -16,7 +16,6 @@ export default function VideoUploadModal({
     if (e.target.files && e.target.files.length > 0) {
       const selected = e.target.files[0];
       setFile(selected);
-      console.log("VideoUploadModal: File selected and passed to parent:", selected.name);
       onFileSelected(selected); // ✅ 상위에 전달
     }
   };
